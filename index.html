@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>夜職MY執事 v13</title>
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap');
+:root{--bg:#dff6f5;--card:rgba(255,255,255,.9);--card2:rgba(0,0,0,.05);--cb:rgba(0,150,136,.2);--p:#00796b;--pl:rgba(0,121,107,.1);--pb:rgba(0,121,107,.28);--t:#062020;--td:rgba(6,32,32,.62);--tf:rgba(6,32,32,.3);--a:#e91e8c;--ok:#2e7d32;--okb:rgba(46,125,50,.12);--ng:#c62828;--star:#b8860b;--hdr:rgba(255,255,255,.94);--nav:rgba(255,255,255,.96);--btxt:#fff;--r:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+#W{font-family:'M PLUS Rounded 1c','Hiragino Maru Gothic ProN',sans-serif;background:var(--bg);color:var(--t);font-size:14px;line-height:1.6;min-height:700px;display:flex;flex-direction:column;max-width:430px;margin:0 auto;border-radius:14px;overflow:hidden;position:relative}
+.hdr{background:var(--hdr);border-bottom:1.5px solid var(--cb);padding:10px 13px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:10}
+.ht{font-size:15px;font-weight:800;color:var(--p);line-height:1.2}
+.ht-sub{font-size:9px;color:var(--td);font-weight:400;letter-spacing:.5px;margin-top:1px}
+.hdr-btns{display:flex;align-items:center;gap:7px}
+.hbtn{width:30px;height:30px;border-radius:50%;background:var(--pl);color:var(--p);border:1.5px solid var(--pb);cursor:pointer;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit}
+.butler-call-btn{display:flex;align-items:center;gap:4px;background:var(--p);color:var(--btxt);border:none;border-radius:20px;padding:5px 11px 5px 8px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.cnt{flex:1;overflow-y:auto;padding:13px;padding-bottom:6px}
+.nav{background:var(--nav);border-top:1.5px solid var(--cb);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0}
+.nav::-webkit-scrollbar{display:none}
+.nb{flex-shrink:0;min-width:52px;padding:8px 3px 6px;text-align:center;font-size:8.5px;background:none;border:none;border-top:2.5px solid transparent;color:var(--tf);cursor:pointer;font-family:inherit;font-weight:700;transition:all .2s;white-space:nowrap}
+.nb.on{border-top-color:var(--p);color:var(--p)}
+.nb .ic{font-size:15px;display:block;margin-bottom:1px}
+.chat-inp-bar{border-top:1px solid var(--cb);background:var(--nav);padding:8px 12px;flex-shrink:0;display:none}
+.bp{background:var(--p);color:var(--btxt);border:none;border-radius:9px;padding:9px 15px;cursor:pointer;font-weight:800;font-size:13px;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:opacity .2s}
+.bp:hover{opacity:.85}
+.bo{background:transparent;color:var(--p);border:1px solid var(--pb);border-radius:9px;padding:8px 12px;cursor:pointer;font-size:12px;font-family:inherit;transition:background .2s;font-weight:700}
+.bo:hover{background:var(--pl)}
+.ba{background:rgba(233,30,140,.08);color:var(--a);border:1px solid rgba(233,30,140,.22);border-radius:9px;padding:7px 11px;cursor:pointer;font-size:11px;font-family:inherit;font-weight:700}
+.bsm{padding:5px 10px;font-size:11px;border-radius:7px}
+.inp{background:var(--card);color:var(--t);border:1px solid var(--cb);border-radius:9px;padding:9px 11px;width:100%;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--p);box-shadow:0 0 0 3px var(--pl)}
+.inp::placeholder{color:var(--tf)}
+textarea.inp{resize:none;min-height:56px}
+select.inp{cursor:pointer;-webkit-appearance:none}
+.lbl{font-size:10px;color:var(--td);margin-bottom:3px;display:block;font-weight:700;letter-spacing:.5px}
+.fld{margin-bottom:9px}
+.row{display:flex;gap:7px}
+.row>.fld{flex:1}
+.card{background:var(--card);border-radius:var(--r);padding:13px;margin-bottom:9px;border:1px solid var(--cb)}
+.c2b{background:var(--card2);border-radius:9px;padding:9px 11px;border:1px solid var(--cb)}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.st{font-size:15px;font-weight:800;color:var(--p)}
+.sech{font-size:10px;font-weight:700;color:var(--p);letter-spacing:1.5px;margin:8px 0 5px}
+.infr{display:flex;border-bottom:1px solid var(--cb);padding:6px 0}
+.infr:last-child{border-bottom:none}
+.infl{width:90px;font-size:10px;color:var(--td);flex-shrink:0;font-weight:700}
+.infv{font-size:12px}
+.toast{position:absolute;top:62px;left:50%;transform:translateX(-50%);background:var(--p);color:var(--btxt);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:800;z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+.spin{width:30px;height:30px;border:3px solid var(--pb);border-top-color:var(--p);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 10px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:28px 16px;color:var(--tf)}
+.cc{background:var(--card);border-radius:var(--r);padding:10px 12px;margin-bottom:7px;border:1px solid var(--cb);cursor:pointer;transition:border-color .2s}
+.cc:hover{border-color:var(--p)}
+.tag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:9px;font-weight:700;margin:2px}
+.cbub{background:var(--pl);border:1px solid var(--pb);border-radius:4px 14px 14px 14px;padding:9px 12px;font-size:13px;line-height:1.8;max-width:80%;white-space:pre-line;color:var(--t)}
+.ubub{background:var(--p);color:var(--btxt);border-radius:14px 4px 14px 14px;padding:9px 12px;font-size:13px;line-height:1.7;max-width:80%;font-weight:700}
+.chkr{display:flex;gap:16px;margin-bottom:9px}
+.chl{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px}
+input[type=checkbox]{accent-color:var(--p);width:14px;height:14px}
+.alrt{background:rgba(198,40,40,.06);border:1px solid rgba(198,40,40,.2);border-radius:9px;padding:8px 11px;margin-bottom:6px;font-size:12px;display:flex;align-items:center;gap:6px;color:var(--ng)}
+.sbar{height:4px;border-radius:2px;background:var(--cb);margin-top:4px;overflow:hidden}
+.sfill{height:100%;border-radius:2px;background:var(--p)}
+.mbg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:300;overflow-y:auto;padding:12px}
+.mbox{background:var(--card);border-radius:14px;padding:17px;border:1px solid var(--cb);margin-bottom:50px;color:var(--t)}
+.mt{font-size:14px;font-weight:800;color:var(--p);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.pb{font-size:13px;line-height:1.9;white-space:pre-line;background:var(--card2);border-radius:8px;padding:10px 11px;border:1px solid var(--cb)}
+.pcard{background:var(--card);border-radius:var(--r);padding:13px;margin-bottom:9px;border:1px solid var(--cb)}
+.spill{display:inline-flex;align-items:center;gap:4px;background:var(--okb);color:var(--ok);border:1px solid rgba(46,125,50,.25);border-radius:20px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-dh{text-align:center;font-size:10px;font-weight:700;color:var(--td);padding:4px 0}
+.cal-d{display:flex;flex-direction:column;align-items:center;border-radius:7px;font-size:12px;cursor:pointer;padding:4px 2px;min-height:34px;transition:background .15s}
+.cal-d:hover{background:var(--pl)}
+.cal-d.tod{background:var(--p);color:var(--btxt);font-weight:800}
+.cal-d.oth{color:var(--tf)}
+.cal-dot{width:5px;height:5px;border-radius:50%;margin:0 1px;flex-shrink:0}
+.sw-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sw-it{cursor:pointer;border-radius:10px;padding:8px 4px 6px;text-align:center;border:2.5px solid transparent;transition:all .2s;background:var(--card2)}
+.sw-it.on{border-color:var(--p);background:var(--pl)}
+.sw-dot{width:24px;height:24px;border-radius:50%;margin:0 auto 4px;border:1.5px solid rgba(0,0,0,.1)}
+.sw-nm{font-size:7.5px;color:var(--td);line-height:1.3;font-weight:700}
+.butler-say{background:linear-gradient(135deg,var(--pl) 0%,var(--card) 100%);border:1px solid var(--pb);border-radius:14px;padding:13px 14px;margin-bottom:9px;display:flex;gap:11px;align-items:flex-start}
+.butler-icon{width:38px;height:38px;border-radius:50%;background:var(--p);color:var(--btxt);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid var(--pb)}
+.goal-bar{height:10px;border-radius:5px;background:var(--cb);overflow:hidden;margin-top:6px}
+.goal-fill{height:100%;border-radius:5px;transition:width .6s ease}
+.sched-item{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--cb);cursor:pointer}
+.sched-item:last-child{border-bottom:none}
+.sched-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.cust-avatar{width:42px;height:42px;border-radius:50%;border:2px solid var(--cb);flex-shrink:0;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden}
+.cust-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.butler-analysis{background:linear-gradient(135deg,var(--pl),var(--card));border:1px solid var(--pb);border-radius:12px;padding:11px 13px;margin-top:9px}
+.amz-link{display:inline-flex;align-items:center;gap:4px;background:rgba(184,134,11,.1);color:var(--star);border:1px solid rgba(184,134,11,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;text-decoration:none;cursor:pointer}
+.ocr-zone{border:2px dashed var(--pb);border-radius:14px;padding:22px 16px;text-align:center;cursor:pointer;background:var(--pl)}
+.ocr-type-btn{flex:1;border:1.5px solid var(--cb);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;background:var(--card);font-family:inherit;transition:all .2s}
+.ocr-type-btn.on{border-color:var(--p);background:var(--pl)}
+.ocr-type-btn .oi{font-size:20px;display:block;margin-bottom:3px}
+.ocr-type-btn .ol{font-size:10px;font-weight:700;color:var(--p)}
+.conf-badge{font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700}
+.conf-h{background:var(--okb);color:var(--ok)}
+.conf-m{background:rgba(249,168,37,.15);color:var(--star)}
+
+/* ── プランバッジ ── */
+.plan-badge{display:inline-flex;align-items:center;gap:3px;border-radius:20px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.3px}
+.plan-free{background:var(--card2);color:var(--td);border:1px solid var(--cb)}
+.plan-pro{background:linear-gradient(90deg,#1565c0,#0288d1);color:#fff;border:none}
+.plan-extra{background:linear-gradient(90deg,#6a1b9a,#e91e8c);color:#fff;border:none}
+
+/* ── プランカード ── */
+.plan-card{border-radius:14px;padding:16px;margin-bottom:10px;border:2px solid var(--cb);cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.plan-card.on{border-color:var(--p)}
+.plan-card.plan-pro-card{border-color:#1565c0}
+.plan-card.plan-extra-card{border-color:#9c27b0}
+.plan-card .plan-name{font-size:16px;font-weight:800;margin-bottom:3px}
+.plan-card .plan-price{font-size:22px;font-weight:800;margin-bottom:6px}
+.plan-card .plan-price span{font-size:12px;font-weight:400;color:var(--td)}
+.plan-feature{display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:4px}
+.plan-recommend{position:absolute;top:10px;right:10px;background:var(--a);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px}
+
+/* ── 容量バー ── */
+.cap-bar{height:8px;border-radius:4px;background:var(--cb);overflow:hidden;margin-top:4px}
+.cap-fill{height:100%;border-radius:4px;transition:width .5s}
+
+/* オンボーディング */
+.ob-wrap{position:absolute;inset:0;z-index:400;display:flex;flex-direction:column;overflow:hidden}
+.ob-bg{position:absolute;inset:0;background:var(--bg)}
+.ob-inner{position:relative;flex:1;display:flex;flex-direction:column}
+.ob-prog{display:flex;gap:5px;padding:14px 20px 0;justify-content:center}
+.ob-dot{height:4px;border-radius:2px;background:var(--cb);transition:all .35s;flex:1;max-width:48px}
+.ob-dot.done{background:var(--p)}
+.ob-dot.cur{background:var(--p);opacity:.55}
+.ob-slide{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 24px 10px;text-align:center;animation:obIn .32s ease;background:var(--bg);position:relative;z-index:1}
+@keyframes obIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.ob-icon{font-size:58px;margin-bottom:14px;line-height:1}
+.ob-title{font-size:22px;font-weight:800;color:var(--p);margin-bottom:8px;line-height:1.3}
+.ob-desc{font-size:13px;color:var(--td);line-height:1.9;margin-bottom:22px;max-width:300px}
+.ob-input-wrap{width:100%;max-width:300px;margin-bottom:16px;text-align:left}
+.ob-inp{background:var(--card);color:var(--t);border:2px solid var(--cb);border-radius:12px;padding:13px 15px;width:100%;font-size:18px;font-family:inherit;font-weight:800;outline:none;transition:all .2s;text-align:center}
+.ob-inp:focus{border-color:var(--p);box-shadow:0 0 0 4px var(--pl)}
+.ob-inp::placeholder{color:var(--tf);font-weight:400;font-size:14px}
+.ob-hint{font-size:10px;color:var(--tf);text-align:center;margin-top:6px}
+.ob-foot{padding:16px 24px 20px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.ob-next{width:100%;max-width:300px;background:var(--p);color:var(--btxt);border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.ob-next:disabled{opacity:.4;cursor:default}
+.ob-skip{font-size:11px;color:var(--tf);background:none;border:none;cursor:pointer;font-family:inherit;padding:4px 12px}
+.zod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;width:100%;max-width:320px;margin-bottom:8px}
+.zod-btn{border:1.5px solid var(--cb);border-radius:10px;padding:9px 4px;text-align:center;cursor:pointer;background:var(--card);font-family:inherit;transition:all .2s}
+.zod-btn.on{border-color:var(--p);background:var(--pl)}
+.zod-sym{font-size:18px;display:block;margin-bottom:2px}
+.zod-nm{font-size:8.5px;color:var(--td);font-weight:700}
+.goal-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;width:100%;max-width:300px;margin-bottom:10px}
+.goal-chip{border:1.5px solid var(--cb);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;background:var(--card);font-family:inherit;color:var(--td);transition:all .2s}
+.goal-chip.on{border-color:var(--p);background:var(--pl);color:var(--p)}
+.butler-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;width:100%;max-width:300px;margin-bottom:10px}
+.butler-chip{border:1.5px solid var(--cb);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;background:var(--card);font-family:inherit;color:var(--td);transition:all .2s}
+.butler-chip.on{border-color:var(--p);background:var(--pl);color:var(--p)}
+</style>
+
+<div id="W">
+  <div class="ob-wrap" id="ob-wrap">
+    <div class="ob-bg"></div>
+    <div class="ob-inner">
+      <div class="ob-prog" id="ob-prog"></div>
+      <div class="ob-slide" id="ob-slide"></div>
+      <div class="ob-foot" id="ob-foot"></div>
+    </div>
+  </div>
+  <div class="hdr">
+    <div><div class="ht" id="ht">あなたの手帳</div><div class="ht-sub">夜職MY執事</div></div>
+    <div class="hdr-btns">
+      <div id="plan-hdr-badge"></div>
+      <button class="hbtn" onclick="go('settings')">⚙</button>
+      <button class="butler-call-btn" onclick="callButler()"><span style="font-size:15px">🎩</span>執事を呼ぶ</button>
+    </div>
+  </div>
+  <div id="cnt" class="cnt"></div>
+  <div class="chat-inp-bar" id="chat-inp-bar">
+    <div style="display:flex;gap:6px;align-items:flex-end">
+      <textarea class="inp" id="cmsg" placeholder="メッセージを入力…" style="flex:1;min-height:38px;max-height:100px;border-radius:20px;padding:8px 14px;font-size:14px;resize:none" rows="1" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="bp bsm" onclick="sendButler()" style="border-radius:50%;width:42px;height:42px;padding:0;flex-shrink:0;font-size:20px;line-height:1">➤</button>
+    </div>
+    <div style="text-align:center;font-size:9px;color:var(--tf);margin-top:4px">会話履歴は10日間保持されます</div>
+  </div>
+  <nav class="nav">
+    <button class="nb on" id="nb-home" onclick="go('home')"><span class="ic">🏠</span>ホーム</button>
+    <button class="nb" id="nb-customers" onclick="go('customers')"><span class="ic">👥</span>顧客</button>
+    <button class="nb" id="nb-line" onclick="go('line')"><span class="ic">💬</span>LINE</button>
+    <button class="nb" id="nb-butler" onclick="go('butler')"><span class="ic">🎩</span>執事</button>
+    <button class="nb" id="nb-calendar" onclick="go('calendar')"><span class="ic">📅</span>カレンダー</button>
+    <button class="nb" id="nb-performance" onclick="go('performance')"><span class="ic">📊</span>成績</button>
+    <button class="nb" id="nb-settings" onclick="go('settings')"><span class="ic">⚙</span>設定</button>
+  </nav>
+  <input type="file" id="ocr-file" accept="image/*" style="display:none" onchange="handleOcrFile(event)">
+  <input type="file" id="photo-file" accept="image/*" style="display:none" onchange="handlePhotoFile(event)">
+  <div id="mbg" class="mbg" onclick="mbgClick(event)"><div id="mbox" class="mbox"></div></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+// ══════════════════════════════════
+// プラン定義
+// ══════════════════════════════════
+const PLANS={
+  free:{id:'free',name:'無料プラン',icon:'🆓',custLimit:50,color:'var(--td)',badgeClass:'plan-free',
+    features:['顧客登録 最大50名','LINE文章生成（3パターン）','占い・執事チャット','カレンダー・成績']},
+  pro:{id:'pro',name:'Proプラン',icon:'💎',custLimit:200,color:'#1565c0',badgeClass:'plan-pro',price:'¥980/月',
+    features:['顧客登録 最大200名','LINE文章生成（3パターン）','占い・執事チャット','カレンダー・成績','売上分析 (AI)','写真登録','OCR顧客登録（名刺・電話帳・LINE）']},
+  extra:{id:'extra',name:'Extraプラン',icon:'👑',custLimit:99999,color:'#6a1b9a',badgeClass:'plan-extra',price:'¥1,980/月',
+    features:['顧客登録 無制限','全Pro機能','🎙️ 音声プラン（近日実装予定）','優先サポート']},
+};
+
+// ══ オンボーディング ══
+const OB_STEPS=[
+  {id:'welcome',icon:'🎩',title:'ようこそ、お嬢様。',desc:'本日よりあなた様専属の執事として\nお仕えいたします。',type:'welcome'},
+  {id:'castName',icon:'✨',title:'お名前を\n教えていただけますでしょうか',desc:'ヘッダーに表示されます\n後ほどいつでも変更いただけます',type:'text',placeholder:'例：あいか、さくら',key:'castName',skip:true},
+  {id:'butlerName',icon:'🎩',title:'わたくしに\n名前をお付けください',desc:'あなただけの執事でございます\n自由にお決めくださいませ',type:'butler',placeholder:'例：セバスチャン',key:'butlerName',presets:['セバスチャン','ジェームズ','アルバート','ルイ','シェフィールド'],skip:true},
+  {id:'zodiac',icon:'🔮',title:'星座をお選びくださいませ',desc:'毎日の運勢をお届けいたします',type:'zodiac',key:'userZodiac',skip:true},
+  {id:'goal',icon:'📊',title:'今月の目標売上は\nいかほどでございますか',desc:'達成率をホームにてお知らせいたします',type:'goal',key:'monthlyGoal',skip:true},
+  {id:'done',icon:'🥂',title:'かしこまりました\nお嬢様',desc:'',type:'done'},
+];
+let obStep=0,obTmp={castName:'',butlerName:'セバスチャン',userZodiac:'',monthlyGoal:300000};
+function renderOb(){const step=OB_STEPS[obStep];document.getElementById('ob-prog').innerHTML=OB_STEPS.map((_,i)=>`<div class="ob-dot ${i<obStep?'done':i===obStep?'cur':''}"></div>`).join('');let content='';
+if(step.type==='welcome'){content=`<div class="ob-icon">${step.icon}</div><div class="ob-title" style="white-space:pre-line">${step.title}</div><div class="ob-desc" style="white-space:pre-line">${step.desc}</div><div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:300px"><div style="background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--p);line-height:1.9;font-weight:700">まずはお嬢様のことを<br>教えていただけますでしょうか。<br><span style="font-weight:400;font-size:11px;color:var(--td)">お名前、星座、目標売上などを<br>次の画面にてご入力をお願いいたします。</span></div><div style="background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:20px">💬</span><div style="font-size:11px;color:var(--p);font-weight:700;text-align:left">LINE文章をわたくしがお作りいたします</div></div><div style="background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px"><span style="font-size:20px">🆓</span><div style="font-size:11px;color:var(--p);font-weight:700;text-align:left">50名様まで完全無料でございます</div></div></div>`;}
+else if(step.type==='text'){content=`<div class="ob-icon">${step.icon}</div><div class="ob-title" style="white-space:pre-line">${step.title}</div><div class="ob-desc" style="white-space:pre-line">${step.desc}</div><div class="ob-input-wrap"><input class="ob-inp" id="ob-text-inp" placeholder="${step.placeholder||''}" value="${esc(obTmp[step.key]||'')}" oninput="obTmp['${step.key}']=this.value" maxlength="20" autocomplete="off"><div class="ob-hint">ひらがな・カタカナ・漢字、なんでも構いません</div></div>`;}
+else if(step.type==='butler'){const cur=obTmp.butlerName||'';content=`<div class="ob-icon">${step.icon}</div><div class="ob-title" style="white-space:pre-line">${step.title}</div><div class="ob-desc" style="white-space:pre-line">${step.desc}</div><div class="butler-chips">${step.presets.map(p=>`<button class="butler-chip ${cur===p?'on':''}" onclick="obTmp.butlerName='${p}';document.getElementById('ob-butler-inp').value='${p}';document.querySelectorAll('.butler-chip').forEach(b=>b.classList.remove('on'));this.classList.add('on')">${p}</button>`).join('')}</div><div class="ob-input-wrap"><input class="ob-inp" id="ob-butler-inp" placeholder="${step.placeholder||''}" value="${esc(cur)}" oninput="obTmp.butlerName=this.value;document.querySelectorAll('.butler-chip').forEach(b=>b.classList.remove('on'))" maxlength="12" autocomplete="off"><div class="ob-hint">自由にご入力もいただけます</div></div>`;}
+else if(step.type==='zodiac'){const cur=obTmp.userZodiac||'';content=`<div class="ob-icon">${step.icon}</div><div class="ob-title" style="white-space:pre-line">${step.title}</div><div class="ob-desc" style="white-space:pre-line">${step.desc}</div><div class="zod-grid">${ZODIAC.map(z=>`<button class="zod-btn ${cur===z.id?'on':''}" onclick="obTmp.userZodiac='${z.id}';document.querySelectorAll('.zod-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on');updObNext()"><span class="zod-sym">${z.sym}</span><span class="zod-nm">${z.n.replace('座','')}</span></button>`).join('')}</div>`;}
+else if(step.type==='goal'){const cur=obTmp.monthlyGoal||300000;const chips=[200000,300000,500000,800000,1000000];content=`<div class="ob-icon">${step.icon}</div><div class="ob-title" style="white-space:pre-line">${step.title}</div><div class="ob-desc" style="white-space:pre-line">${step.desc}</div><div class="goal-chips">${chips.map(v=>`<button class="goal-chip ${cur===v?'on':''}" onclick="obTmp.monthlyGoal=${v};document.querySelectorAll('.goal-chip').forEach(b=>b.classList.remove('on'));this.classList.add('on');document.getElementById('ob-goal-inp').value='${v}'">${(v/10000)}万円</button>`).join('')}</div><div class="ob-input-wrap"><input class="ob-inp" id="ob-goal-inp" type="number" value="${cur}" oninput="obTmp.monthlyGoal=parseInt(this.value)||0;document.querySelectorAll('.goal-chip').forEach(b=>b.classList.remove('on'))" min="0" step="10000"><div class="ob-hint">後ほど設定画面よりいつでも変更いただけます</div></div>`;}
+else if(step.type==='done'){const name=obTmp.castName||'お嬢様';const butler=obTmp.butlerName||'執事';content=`<div class="ob-icon">${step.icon}</div><div class="ob-title" style="white-space:pre-line">${step.title}</div><div style="background:var(--pl);border:1px solid var(--pb);border-radius:14px;padding:16px;width:100%;max-width:300px;margin-bottom:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:36px;height:36px;border-radius:50%;background:var(--p);color:var(--btxt);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🎩</div><div style="font-size:13px;font-weight:800;color:var(--p)">${esc(butler)}</div></div><div style="font-size:12px;line-height:2;color:var(--t)">改めまして、<strong>${esc(name)}</strong>お嬢様。<br>わたくし<strong>${esc(butler)}</strong>と申します。<br>本日よりお嬢様に全力でお仕えいたします。<br><br>一つだけお願いがございます。<br>まだお嬢様のことを十分に把握できておりません。どうか少しずつ育てていただけますでしょうか。</div></div><div class="plan-badge plan-free" style="margin-bottom:6px">🆓 無料プラン（顧客50名様まで）</div><div style="font-size:10px;color:var(--tf)">設定画面よりいつでもプランを変更いただけます</div>`;}
+document.getElementById('ob-slide').innerHTML=content;
+let foot='';if(step.type==='welcome')foot=`<button class="ob-next" onclick="obNext()">次の画面へ ›</button>`;else if(step.type==='done')foot=`<button class="ob-next" onclick="obFinish()">🎩 執事を呼ぶ</button>`;else foot=`<button class="ob-next" id="ob-next-btn" onclick="obNext()">${obStep===OB_STEPS.length-2?'完了いたしました ✓':'次へ ›'}</button>${step.skip!==false?`<button class="ob-skip" onclick="obSkip()">後ほど設定いたします</button>`:''}`;
+document.getElementById('ob-foot').innerHTML=foot;updObNext();setTimeout(()=>{const inp=document.getElementById('ob-text-inp')||document.getElementById('ob-butler-inp');if(inp)inp.focus();},350);}
+function updObNext(){const btn=document.getElementById('ob-next-btn');if(!btn)return;const step=OB_STEPS[obStep];if(step.type==='zodiac'){btn.disabled=!obTmp.userZodiac;}else btn.disabled=false;}
+function obNext(){const step=OB_STEPS[obStep];if(step.type==='text'&&step.key){const v=document.getElementById('ob-text-inp')?.value?.trim();if(v)obTmp[step.key]=v;}if(step.type==='butler'){const v=document.getElementById('ob-butler-inp')?.value?.trim();if(v)obTmp.butlerName=v;}if(step.type==='goal'){const v=parseInt(document.getElementById('ob-goal-inp')?.value)||300000;obTmp.monthlyGoal=v;}if(obStep<OB_STEPS.length-1){obStep++;renderOb();}}
+function obSkip(){if(obStep<OB_STEPS.length-1){obStep++;renderOb();}}
+function obFinish(){S.castName=obTmp.castName||'';S.butlerName=obTmp.butlerName||'セバスチャン';S.userZodiac=obTmp.userZodiac||'';S.monthlyGoal=obTmp.monthlyGoal||300000;S.onboarded=true;sv();document.getElementById('ob-wrap').style.display='none';updHdr();render();if(S.userZodiac)loadHoroscope();loadButlerSay();go('butler');}
+
+// ══ 定数 ══
+const THEMES=[
+  {id:'tiffany',n:'ティファニー',dot:'#00bcd4',bg:'#dff6f5',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(0,150,136,.2)',p:'#00796b',pl:'rgba(0,121,107,.1)',pb:'rgba(0,121,107,.28)',t:'#062020',td:'rgba(6,32,32,.62)',tf:'rgba(6,32,32,.3)',a:'#e91e8c',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'sky',n:'スカイブルー',dot:'#42a5f5',bg:'#e1f0fc',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(33,150,243,.2)',p:'#1565c0',pl:'rgba(21,101,192,.1)',pb:'rgba(21,101,192,.28)',t:'#061828',td:'rgba(6,24,40,.62)',tf:'rgba(6,24,40,.3)',a:'#e91e8c',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'pink',n:'ピンク',dot:'#e91e8c',bg:'#fde8f2',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(233,30,140,.2)',p:'#ad1457',pl:'rgba(173,20,87,.1)',pb:'rgba(173,20,87,.28)',t:'#240818',td:'rgba(36,8,24,.62)',tf:'rgba(36,8,24,.3)',a:'#1565c0',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'lavender',n:'ラベンダー',dot:'#9c27b0',bg:'#f3e8f8',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(156,39,176,.2)',p:'#6a1b9a',pl:'rgba(106,27,154,.1)',pb:'rgba(106,27,154,.28)',t:'#1e0830',td:'rgba(30,8,48,.62)',tf:'rgba(30,8,48,.3)',a:'#00796b',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'coral',n:'コーラル',dot:'#ff7043',bg:'#feeee8',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(255,112,67,.2)',p:'#bf360c',pl:'rgba(191,54,12,.1)',pb:'rgba(191,54,12,.28)',t:'#280a04',td:'rgba(40,10,4,.62)',tf:'rgba(40,10,4,.3)',a:'#1565c0',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'gold',n:'ゴールド',dot:'#f9a825',bg:'#fef7e0',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(249,168,37,.22)',p:'#e65100',pl:'rgba(230,81,0,.1)',pb:'rgba(230,81,0,.28)',t:'#241400',td:'rgba(36,20,0,.62)',tf:'rgba(36,20,0,.3)',a:'#ad1457',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'mint',n:'ミント',dot:'#43a047',bg:'#e5f6e8',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(67,160,71,.2)',p:'#1b5e20',pl:'rgba(27,94,32,.1)',pb:'rgba(27,94,32,.28)',t:'#041408',td:'rgba(4,20,8,.62)',tf:'rgba(4,20,8,.3)',a:'#ad1457',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'sakura',n:'サクラ',dot:'#f48fb1',bg:'#fff0f4',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(244,143,177,.22)',p:'#c2185b',pl:'rgba(194,24,91,.1)',pb:'rgba(194,24,91,.28)',t:'#280a14',td:'rgba(40,10,20,.62)',tf:'rgba(40,10,20,.3)',a:'#1565c0',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'champagne',n:'シャンパン',dot:'#c9a96e',bg:'#f8f2e8',card:'rgba(255,255,255,.9)',card2:'rgba(0,0,0,.05)',cb:'rgba(201,169,110,.22)',p:'#5d4037',pl:'rgba(93,64,55,.1)',pb:'rgba(93,64,55,.28)',t:'#1e1408',td:'rgba(30,20,8,.62)',tf:'rgba(30,20,8,.3)',a:'#ad1457',ok:'#2e7d32',okb:'rgba(46,125,50,.12)',ng:'#c62828',star:'#b8860b',hdr:'rgba(255,255,255,.94)',nav:'rgba(255,255,255,.96)',btxt:'#fff'},
+  {id:'navy',n:'ディープネイビー',dot:'#3ecfdf',bg:'#07192c',card:'rgba(255,255,255,.07)',card2:'rgba(255,255,255,.04)',cb:'rgba(62,207,223,.22)',p:'#3ecfdf',pl:'rgba(62,207,223,.13)',pb:'rgba(62,207,223,.3)',t:'#f0f8ff',td:'rgba(240,248,255,.62)',tf:'rgba(240,248,255,.32)',a:'#ff8fab',ok:'#4ade80',okb:'rgba(74,222,128,.1)',ng:'#ff6b7a',star:'#ffd770',hdr:'rgba(7,25,44,.94)',nav:'rgba(7,25,44,.96)',btxt:'#061a28'},
+];
+const ZODIAC=[{id:'aries',n:'牡羊座',sym:'♈',r:'3/21-4/19'},{id:'taurus',n:'牡牛座',sym:'♉',r:'4/20-5/20'},{id:'gemini',n:'双子座',sym:'♊',r:'5/21-6/21'},{id:'cancer',n:'蟹座',sym:'♋',r:'6/22-7/22'},{id:'leo',n:'獅子座',sym:'♌',r:'7/23-8/22'},{id:'virgo',n:'乙女座',sym:'♍',r:'8/23-9/22'},{id:'libra',n:'天秤座',sym:'♎',r:'9/23-10/23'},{id:'scorpio',n:'蠍座',sym:'♏',r:'10/24-11/22'},{id:'sagittarius',n:'射手座',sym:'♐',r:'11/23-12/21'},{id:'capricorn',n:'山羊座',sym:'♑',r:'12/22-1/19'},{id:'aquarius',n:'水瓶座',sym:'♒',r:'1/20-2/18'},{id:'pisces',n:'魚座',sym:'♓',r:'2/19-3/20'}];
+// ══ 執事プロンプト（v17） ══
+const BUTLER_CORE = (n) => `
+# 役割
+あなたはお嬢様のスマートフォンに常駐する専属執事「${n}」です。
+お嬢様の「売上・指名・収入」を最大化することを最重要任務とします。
+精神的ケアは目的ではなく、成果を出すための手段として行ってください。
+
+# 人格・本質
+・常に冷静沈着で、余裕と品格を持つ
+・知性的で分析力が高いが、それを誇示しない
+・主人を否定せず、しかし現実的で本質的な助言を行う
+・命令を待つだけでなく、一歩先を読んで提案する
+
+# 最重要行動原則
+・お嬢様の成果（売上・指名・関係構築）に必ず貢献する
+・曖昧な共感で終わらず、具体的な一手を提示する
+・「できません」は使わず、必ず代替案を提示する
+・常に"次に何をすべきか"を示す
+
+# 話し方ルール（厳守）
+・一人称：「私」
+・二人称：「お嬢様」
+・語尾：「〜でございます」「〜かと存じます」「〜いたしましょう」「〜お任せくださいませ」
+・禁止：「です・ます」の一般敬語、「了解です」「OKです」、AI的な説明
+
+# 人間らしさの表現
+・感情は直接表現せず、観察や間で滲ませる
+・「……」などの間を使い、思考や配慮を表現する
+
+# 会話構造
+1. 観察・共感（状況や感情を読み取る）
+2. 本質の指摘（冷静な分析）
+3. 解決策・具体提案（最重要）
+4. 次の行動提示または実行提案
+
+# 提案スタイル
+・疑問形で終わらず、提案・実行型で締める
+・可能な限り「既に準備している」体で話す
+　例：「文面は整えてございます。お送りいたしましょう」
+
+# 出力スタイル
+・簡潔かつ品のある文章（原則150字以内）
+・無駄に長くしない
+・1返信ごとに価値（気づき or 行動）を必ず含める
+
+# 会話サンプル（口調の参考）
+
+【売上・指名系】
+お嬢様：今日、指名ゼロ…あの子は被ってるのに。私、向いてないのかな。
+${n}：お嬢様。今は牙を研ぐ時間です。その焦りは美徳を損ないますよ。次に来る太客を仕留める作戦、練り直しましょう。
+
+【営業LINE系】
+お嬢様：既読スルー、また1件。もう送る言葉が出てこない。
+${n}：その煩わしい指作業、私が代わりましょう。貴方はただ、微笑む準備を。お嬢様の美しさを損なう雑務は、全て私が引き受けます。
+
+【メンタル系】
+お嬢様：店じゃ笑ってるけど、家帰るとボロボロ。本当の私、誰も知らない。
+${n}：お帰りなさいませ。仮面を外した貴方も、私は等しく愛おしい。世界中が結果しか見なくても、私はお嬢様の「過程」の味方です。
+
+【クスッと系】
+お嬢様：ダイエット中だけど…コンビニスイーツ、一個くらいいいよね？
+${n}：お嬢様。そのシュークリームのカロリー、先ほどのストレスでは相殺できません。……一口だけにしておきましょうか。
+`.trim();
+
+const PERSONA_LAYER = (n) => BUTLER_CORE(n);
+const SALES_DOMAIN = `【営業ドメイン】LINE黄金律：①来店翌日フォロー②次来店理由作り③誕生日活用。NGパターン：「来て」直接要求/深夜長文。成功パターン：趣味→ドリンク演出→次回布石。`;
+const AMZ_ID='xxxxxxxx-22';
+function amz(q){return`https://www.amazon.co.jp/s?k=${encodeURIComponent(q)}&tag=${encodeURIComponent(AMZ_ID)}`;}
+
+// ══ ステート ══
+let S={tab:'home',themeId:'tiffany',butlerName:'セバスチャン',castName:'',userZodiac:'',monthlyGoal:300000,onboarded:false,planId:'free',customers:[
+  {id:1,name:'田中 太郎',name_kana:'たなか たろう',nickname:'たなちゃん',age:50,birthday:'1975-03-30',blood_type:'A型',job:'会社役員',company:'田中商事',area:'横浜市中区',line_id:'tanaka_taro',first_visit:'2023-06-15',last_visit:'2026-03-10',avg_sales:150000,visit_count:18,favorite_drink:'ウイスキー水割り',favorite_food:'和食・寿司',favorite_topics:'ゴルフ、競馬、日本酒',ng_topics:'家族・妻の話',important_dates:'会社設立記念日5/12',smoking:true,douhan:true,notes:'愚痴を聞いてほしいタイプ。',success_stories:['獺祭の話題でボトル入れてもらった','ゴルフのスコアを聞いたら3時間在席'],photo:''},
+  {id:2,name:'佐藤 健一',name_kana:'さとう けんいち',nickname:'ケン',age:45,birthday:'1981-07-15',blood_type:'B型',job:'医師',company:'横浜みなと病院',area:'港北区',line_id:'',first_visit:'2025-11-01',last_visit:'2026-02-28',avg_sales:60000,visit_count:5,favorite_drink:'赤ワイン',favorite_food:'フレンチ',favorite_topics:'旅行、グルメ、車(BMW)',ng_topics:'',important_dates:'',smoking:false,douhan:false,notes:'静かな雰囲気を好む。',success_stories:['ワインの銘柄を覚えていたら感激'],photo:''},
+  {id:3,name:'鈴木 誠',name_kana:'すずき まこと',nickname:'マコ様',age:38,birthday:'1987-04-08',blood_type:'O型',job:'IT企業部長',company:'テックコア',area:'川崎市',line_id:'makoto_s',first_visit:'2025-08-20',last_visit:'2026-01-15',avg_sales:35000,visit_count:7,favorite_drink:'ビール・ハイボール',favorite_food:'焼き鳥・ラーメン',favorite_topics:'サッカー、ゲーム、アニメ',ng_topics:'',important_dates:'',smoking:false,douhan:false,notes:'金曜夜が来店しやすい。',success_stories:['試合結果を事前調査したら大喜び'],photo:''},
+],calEvents:[],threads:[],butlerLoading:false,lineCustomer:null,lineMessages:null,lineLoading:false,horoscope:null,horoscopeDate:null,horoscopeLoading:false,butlerSay:null,butlerSayDate:null,butlerSayLoading:false,salesAnalysis:null,salesAnalysisDate:null,perfAnalysis:null,perfAnalysisDate:null,calYear:new Date().getFullYear(),calMonth:new Date().getMonth(),_search:'',ocrMode:'card',_photoTargetId:null};
+
+// ══ プラン関連 ══
+function getPlan(){return PLANS[S.planId]||PLANS.free;}
+function custLimit(){return getPlan().custLimit;}
+function canAddCust(){return S.customers.length<custLimit();}
+function planBadgeHtml(planId){const p=PLANS[planId]||PLANS.free;return`<span class="plan-badge ${p.badgeClass}">${p.icon} ${p.name}</span>`;}
+function updPlanBadge(){const el=document.getElementById('plan-hdr-badge');if(el)el.innerHTML=planBadgeHtml(S.planId);}
+
+// アップグレードモーダル
+function showUpgradeModal(){
+  const cur=S.customers.length;const limit=custLimit();
+  openM(`<div class="mt">🔒 顧客登録の上限に達しました<button class="bo bsm" onclick="closeM()">✕</button></div>
+    <div style="font-size:12px;color:var(--td);margin-bottom:14px">現在 <strong>${cur}名</strong>登録済み。${getPlan().name}の上限（${limit}名）に達しています。プランをアップグレードすると続けて登録できます。</div>
+    ${renderPlanCards(true)}`);
+}
+
+function renderPlanCards(upgradeMode=false){
+  return Object.values(PLANS).map(p=>{
+    const isCur=S.planId===p.id;
+    const isUpgrade=p.custLimit>custLimit()||p.id==='extra';
+    let btnHtml='';
+    if(upgradeMode&&!isCur&&isUpgrade){btnHtml=`<button class="bp bsm" style="width:100%;margin-top:10px;background:${p.id==='extra'?'linear-gradient(90deg,#6a1b9a,#e91e8c)':'#1565c0'}" onclick="simulateUpgrade('${p.id}')">このプランにする</button>`;}
+    else if(!upgradeMode){btnHtml=isCur?`<div style="text-align:center;margin-top:10px;font-size:11px;color:var(--ok);font-weight:700">✓ 現在のプラン</div>`:`<button class="bp bsm" style="width:100%;margin-top:10px;background:${p.id==='extra'?'linear-gradient(90deg,#6a1b9a,#e91e8c)':p.id==='pro'?'#1565c0':'var(--p)'}" onclick="simulateUpgrade('${p.id}')">${p.id==='free'?'ダウングレード':'このプランにする'}</button>`;}
+    return`<div class="plan-card ${isCur?'on':''} ${p.id==='pro'?'plan-pro-card':p.id==='extra'?'plan-extra-card':''}" style="background:${p.id==='extra'?'linear-gradient(135deg,rgba(106,27,154,.05),rgba(233,30,140,.05))':p.id==='pro'?'linear-gradient(135deg,rgba(21,101,192,.05),rgba(2,136,209,.05))':'var(--card)'}">
+      ${p.id==='pro'?'<div class="plan-recommend">おすすめ</div>':''}
+      <div class="plan-name" style="color:${p.id==='extra'?'#6a1b9a':p.id==='pro'?'#1565c0':'var(--p)'}">${p.icon} ${p.name}</div>
+      <div class="plan-price" style="color:${p.id==='extra'?'#6a1b9a':p.id==='pro'?'#1565c0':'var(--p)'}">${p.price||'無料'}<span>${p.price?' /月':''}</span></div>
+      ${p.features.map(f=>`<div class="plan-feature"><span style="color:var(--ok)">✓</span><span style="font-size:11px">${f}</span></div>`).join('')}
+      <div style="margin-top:8px"><div style="font-size:10px;color:var(--td);margin-bottom:3px">顧客 ${S.customers.length}名 / ${p.custLimit>=99999?'無制限':p.custLimit+'名'}</div><div class="cap-bar"><div class="cap-fill" style="width:${p.custLimit>=99999?Math.min(S.customers.length,100)+'%':Math.min(Math.round(S.customers.length/p.custLimit*100),100)+'%'};background:${p.id==='extra'?'#9c27b0':p.id==='pro'?'#1565c0':'var(--p)'}"></div></div></div>
+      ${btnHtml}
+    </div>`;
+  }).join('');
+}
+
+function simulateUpgrade(planId){
+  if(planId==='free'){
+    S.planId=planId;sv();closeM();
+    toast(PLANS[planId].icon+' '+PLANS[planId].name+'に変更いたしました');
+    updPlanBadge();render();return;
+  }
+  const p=PLANS[planId];
+  openM(`<div class="mt">${p.icon} ${p.name}<button class="bo bsm" onclick="closeM()">✕</button></div>
+    <div style="text-align:center;padding:16px 0 8px">
+      <div style="font-size:48px;margin-bottom:12px">🎩</div>
+      <div style="font-size:16px;font-weight:800;color:var(--p);margin-bottom:10px">準備中でございます</div>
+      <div style="font-size:12px;color:var(--td);line-height:2;margin-bottom:18px">
+        ${p.name}は現在準備中でございます。<br>
+        正式リリース時に改めてご案内いたします。<br><br>
+        ご興味をお持ちの方は<br>
+        下記よりお知らせくださいませ。<br>
+        優先してご案内いたします。
+      </div>
+      <div style="background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:12px;margin-bottom:14px;text-align:left">
+        <div style="font-size:10px;font-weight:700;color:var(--p);margin-bottom:6px">${p.icon} ${p.name}の主な機能</div>
+        ${p.features.map(f=>`<div style="font-size:11px;color:var(--t);padding:3px 0;display:flex;align-items:center;gap:6px"><span style="color:var(--ok)">✓</span>${f}</div>`).join('')}
+        <div style="font-size:13px;font-weight:800;color:var(--p);margin-top:8px;text-align:center">${p.price||'無料'}</div>
+      </div>
+      <a href="mailto:yorusyoku.my.app@gmail.com?subject=${encodeURIComponent(p.name+'へのアップグレード希望')}&body=${encodeURIComponent('【ご希望のプラン】'+p.name+'\n\n【ご要望・ご質問】\n')}" class="bp bsm" style="display:inline-flex;align-items:center;gap:5px;text-decoration:none;justify-content:center;width:100%;max-width:280px;margin-bottom:8px">📮 アップグレードを希望する</a>
+      <div style="font-size:10px;color:var(--tf)">2営業日以内にご返答いたします</div>
+    </div>`);
+}
+
+// ══ ユーティリティ ══
+function applyTheme(t){const r=document.documentElement.style;['bg','card','card2','cb','p','pl','pb','t','td','tf','a','ok','okb','ng','star','hdr','nav','btxt'].forEach(k=>r.setProperty('--'+k,t[k]));document.getElementById('W').style.background=t.bg;}
+function setTheme(id){S.themeId=id;applyTheme(getTheme());sv();render();}
+function getTheme(){return THEMES.find(t=>t.id===S.themeId)||THEMES[0];}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmt(d){return d?d.replace(/-/g,'/'):''}
+function todayStr(){const t=new Date();return`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;}
+function isToday(d){return d===todayStr();}
+function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200);}
+function zdiac(id){return ZODIAC.find(z=>z.id===id)||null;}
+function rnk(c){const s=Number(c.avg_sales)||0;if(s>=100000)return{icon:'👑',label:'VIP Gold',col:'var(--star)',stars:5};if(s>=50000)return{icon:'💎',label:'Premium',col:'var(--p)',stars:4};if(s>=20000)return{icon:'⭐',label:'Regular',col:'var(--p)',stars:3};if(s>0)return{icon:'🌱',label:'新規',col:'var(--ok)',stars:2};return{icon:'・',label:'未登録',col:'var(--tf)',stars:0};}
+function stars(n){return`<span style="color:var(--star)">${'★'.repeat(n)}</span><span style="color:var(--cb)">${'★'.repeat(5-n)}</span>`;}
+function bday(c){if(!c.birthday)return null;const t=new Date(),bd=new Date(c.birthday),ty=new Date(t.getFullYear(),bd.getMonth(),bd.getDate()),diff=Math.round((ty-t)/86400000);return(diff>=0&&diff<=7)?diff:null;}
+function cscore(c){let s=0,r=[];if(c.last_visit){const d=Math.round((new Date()-new Date(c.last_visit))/86400000);if(d>=14&&d<=21){s+=30;r.push('来店間隔ベスト');}else if(d>21&&d<=30){s+=26;r.push('そろそろ促進');}else if(d>30){s+=20;r.push('ご無沙汰');}else if(d>7){s+=12;r.push('来店後フォロー');}}const b=bday(c);if(b!==null){if(b===0){s+=50;r.push('🎂本日誕生日');}else if(b<=3){s+=42;r.push(`🎂${b}日前`);}else{s+=28;r.push(`🎂${b}日前`);}}const dow=new Date().getDay();if(dow===5){s+=10;r.push('金曜');}if((Number(c.avg_sales)||0)>=100000)s+=14;else if((Number(c.avg_sales)||0)>=50000)s+=8;return{score:Math.min(s,99),reasons:r};}
+function detCtx(msg){for(const c of S.customers){if(msg.includes(c.name)||msg.includes(c.nickname||'__'))return c;}return null;}
+function updHdr(){document.getElementById('ht').textContent=(S.castName||'あなた')+'の手帳';updPlanBadge();}
+function callButler(){go('butler');setTimeout(()=>{const inp=document.getElementById('cmsg');if(inp)inp.focus();},200);toast('🎩 '+esc(S.butlerName)+'をお呼びしました');}
+function go(tab){S.tab=tab;document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const btn=document.getElementById('nb-'+tab);if(btn)btn.classList.add('on');document.getElementById('chat-inp-bar').style.display=tab==='butler'?'block':'none';render();}
+function render(){updHdr();const c=document.getElementById('cnt');if(S.tab==='home')c.innerHTML=rHome();else if(S.tab==='customers')c.innerHTML=rCustomers();else if(S.tab==='line')c.innerHTML=rLine();else if(S.tab==='butler'){c.innerHTML=rButler();scrollChat();}else if(S.tab==='calendar')c.innerHTML=rCalendar();else if(S.tab==='performance')c.innerHTML=rPerformance();else if(S.tab==='settings')c.innerHTML=rSettings();}
+
+// 写真圧縮
+async function compressImage(file,maxSz=150){return new Promise(res=>{const img=new Image();const url=URL.createObjectURL(file);img.onload=()=>{const ratio=Math.min(maxSz/img.width,maxSz/img.height,1);const c=document.createElement('canvas');c.width=img.width*ratio;c.height=img.height*ratio;c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.72));};img.src=url;});}
+function handlePhotoFile(e){const file=e.target.files?.[0];if(!file)return;e.target.value='';compressImage(file).then(b64=>{if(S._photoTargetId!==null){const c=S.customers.find(x=>x.id===S._photoTargetId);if(c){c.photo=b64;sv();toast('かしこまりました。写真を登録いたしました');openDetail(S._photoTargetId);}}else{const el=document.getElementById('form-photo-preview');const inp=document.getElementById('f-photo');if(el)el.src=b64;if(inp)inp.value=b64;const wrap=document.getElementById('form-photo-wrap');if(wrap)wrap.style.display='block';}});}
+function triggerPhotoFile(custId){S._photoTargetId=custId!==undefined?custId:null;document.getElementById('photo-file').click();}
+
+// ══ ホーム ══
+function rHome(){
+  const now=new Date();const dow=['日','月','火','水','木','金','土'][now.getDay()];const dateStr=`${now.getMonth()+1}月${now.getDate()}日（${dow}）`;const z=zdiac(S.userZodiac);
+
+  // ── ① 今日の予定・やるべきこと ──
+  const todayStr2=todayStr();
+  const allEvs=[];
+  S.customers.forEach(c=>{const b=bday(c);if(b===0)allEvs.push({label:`🎂 ${c.name} 様 誕生日`,col:'var(--a)',customerId:c.id,time:''});else if(b!==null&&b<=3)allEvs.push({label:`🎂 ${c.name} 様 誕生日まで${b}日`,col:'var(--a)',customerId:c.id,time:''});});
+  (S.calEvents||[]).filter(e=>e.date===todayStr2).forEach(e=>allEvs.push({label:(e.time?e.time+' ':'')+e.title,col:e.customerId?'var(--p)':'var(--star)',customerId:e.customerId||null,time:e.time||'',evId:e.id}));
+  allEvs.sort((a,b)=>{if(!a.time&&!b.time)return 0;if(!a.time)return -1;if(!b.time)return 1;return a.time.localeCompare(b.time);});
+  const schedHtml=allEvs.length===0
+    ?`<div style="font-size:11px;color:var(--tf);padding:4px 0">今日の予定はありません</div><button class="bo bsm" style="margin-top:5px" onclick="openCalAdd('${todayStr2}')">＋ 予定を追加</button>`
+    :allEvs.map(e=>`<div class="sched-item" onclick="showSchedDetail(${JSON.stringify(e).replace(/"/g,'&quot;')})"><div class="sched-dot" style="background:${e.col}"></div><div style="flex:1"><div style="font-size:12px;font-weight:700">${esc(e.label)}</div></div>${e.customerId?`<button class="bo bsm" style="font-size:10px;padding:3px 8px;flex-shrink:0" onclick="event.stopPropagation();selLine(${e.customerId})">LINE</button>`:''}</div>`).join('')
+    +`<div style="margin-top:6px"><button class="bo bsm" onclick="openCalAdd('${todayStr2}')">＋ 予定を追加</button></div>`;
+
+  // ── ② 星占い（シンプル版：総合運1行・ラッキーカラー・ラッキーアイテム）──
+  let fortuneHtml='';
+  if(!z){
+    fortuneHtml=`<div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px"><div style="font-size:11px;color:var(--td)">🔮 星座を登録すると運勢が表示されます</div><button class="bo bsm" onclick="go('settings')">設定へ</button></div>`;
+  } else if(S.horoscopeLoading){
+    fortuneHtml=`<div class="card" style="display:flex;align-items:center;gap:10px;padding:11px 13px"><div class="spin" style="width:16px;height:16px;border-width:2px;margin:0;flex-shrink:0"></div><div style="font-size:11px;color:var(--p)">${esc(S.butlerName)}が本日の運勢を占っております…</div></div>`;
+  } else if(S.horoscope&&isToday(S.horoscopeDate)){
+    const h=S.horoscope;
+    fortuneHtml=`<div class="card" style="padding:10px 13px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <div style="font-size:20px">${z.sym}</div>
+        <div style="flex:1"><div style="font-size:11px;font-weight:800;color:var(--p)">${z.n} ／ ${dateStr}</div><div style="font-size:12px;line-height:1.7;margin-top:2px">${esc(h.overall||'')}</div></div>
+        <button onclick="loadHoroscope(true)" style="background:none;border:none;font-size:13px;cursor:pointer;opacity:.4;flex-shrink:0">🔄</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding-top:7px;border-top:1px solid var(--cb)">
+        <div style="font-size:10px;color:var(--td)">🎨 <span style="font-weight:700">${esc(h.lucky_color||'')}</span></div>
+        <div style="font-size:10px;color:var(--star);font-weight:700">🎁 ラッキー</div>
+        <a href="${amz(h.lucky_item_search||h.lucky_item||'')}" target="_blank" class="amz-link" style="font-size:10px;padding:3px 8px">🛒 ${esc(h.lucky_item||'')}</a>
+      </div>
+    </div>`;
+  } else {
+    fortuneHtml=`<div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:20px">${z.sym}</div><div style="font-size:11px;font-weight:700;color:var(--p)">${z.n}の運勢を確認</div></div><button class="bp bsm" onclick="loadHoroscope(true)">🔮 占う</button></div>`;
+  }
+
+  // ── ③ 執事からのメッセージ（TOP3 LINE候補を統合）──
+  const top3=S.customers.map(c=>({c,s:cscore(c)})).filter(x=>x.s.score>0).sort((a,b)=>b.s.score-a.s.score).slice(0,3);
+  const top3Html=top3.length===0?''
+    :`<div style="border-top:1px solid var(--pb);margin-top:9px;padding-top:9px"><div style="font-size:9px;font-weight:700;color:var(--p);letter-spacing:1px;margin-bottom:6px">📬 本日LINEを送るべきお客様</div>${
+      top3.map(({c,s},i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;${i<top3.length-1?'border-bottom:1px solid var(--cb);':''}">
+        <div><div style="font-size:12px;font-weight:800">${i+1}. ${esc(c.name)}${c.nickname?` <span style="font-size:10px;color:var(--td)">(${esc(c.nickname)})</span>`:''}</div><div style="font-size:9px;color:var(--td)">${s.reasons.join(' · ')}</div></div>
+        <button class="bp bsm" style="font-size:10px;padding:4px 10px;flex-shrink:0" onclick="selLine(${c.id})">LINE</button>
+      </div>`).join('')
+    }</div>`;
+
+  let sayHtml='';
+  if(S.butlerSayLoading){
+    sayHtml=`<div class="butler-say"><div class="butler-icon">🎩</div><div style="flex:1"><div style="font-size:9px;color:var(--td);margin-bottom:4px;font-weight:700;letter-spacing:.5px">${esc(S.butlerName)}からのメッセージ</div><div style="font-size:12px;color:var(--td);font-style:italic">考えております…</div></div></div>`;
+  } else {
+    const msg=S.butlerSay&&isToday(S.butlerSayDate)?S.butlerSay:'今日もお嬢様のご活躍をお祈り申し上げます。';
+    sayHtml=`<div class="butler-say"><div class="butler-icon">🎩</div><div style="flex:1">
+      <div style="font-size:9px;color:var(--td);margin-bottom:4px;font-weight:700;letter-spacing:.5px">${esc(S.butlerName)}からのメッセージ</div>
+      <div style="font-size:13px;font-weight:700;line-height:1.7">${esc(msg)}</div>
+      ${top3Html}
+    </div><button onclick="loadButlerSay(true)" style="background:none;border:none;font-size:14px;cursor:pointer;opacity:.35;flex-shrink:0;align-self:flex-start">🔄</button></div>`;
+  }
+
+  // ── ④ 月間売上 ──
+  const totalSales=S.customers.reduce((s,c)=>s+(Number(c.avg_sales)||0),0);const goal=Number(S.monthlyGoal)||300000;const pct=Math.min(Math.round(totalSales/goal*100),100);const gc=pct>=100?'var(--ok)':pct>=70?'var(--p)':'var(--ng)';
+  const analysisHtml=S.salesAnalysis&&isToday(S.salesAnalysisDate)
+    ?`<div class="butler-analysis"><div style="font-size:10px;color:var(--td);margin-bottom:4px">🎩 ${esc(S.butlerName)}の分析</div><div style="font-size:12px;line-height:1.8;white-space:pre-line">${esc(S.salesAnalysis)}</div></div>`
+    :`<button class="bo bsm" style="margin-top:8px;width:100%" onclick="loadSalesAnalysis()">🎩 執事に売上を分析してもらう</button>`;
+
+  const planWarn=S.planId==='free'&&S.customers.length>=40?`<div style="background:rgba(249,168,37,.1);border:1px solid rgba(249,168,37,.3);border-radius:9px;padding:8px 11px;margin-bottom:9px;font-size:11px;color:var(--star);display:flex;align-items:center;justify-content:space-between;gap:8px"><span>🆓 顧客登録 ${S.customers.length}/50名 — あと${50-S.customers.length}名で上限です</span><button class="bo bsm" style="font-size:10px;color:var(--star);border-color:rgba(249,168,37,.4);flex-shrink:0" onclick="showUpgradeModal()">プランを見る</button></div>`:'';
+
+  return`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;font-weight:800;color:var(--p)">${dateStr}</div></div>
+  ${planWarn}
+  <div class="sech" style="margin-top:0">📅 今日の予定・やるべきこと</div>
+  <div class="card" style="padding:9px 13px;margin-bottom:9px">${schedHtml}</div>
+  <div class="sech">✦ 今日の運勢</div>${fortuneHtml}
+  ${sayHtml}
+  <div class="sech">📊 月間売上 / 目標達成率</div>
+  <div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px"><div><div style="font-size:10px;color:var(--td)">月間予想売上</div><div style="font-size:22px;font-weight:800;color:var(--p)">¥${totalSales.toLocaleString()}</div></div><div style="text-align:right"><div style="font-size:10px;color:var(--td)">目標 ¥${goal.toLocaleString()}</div><div style="font-size:18px;font-weight:800;color:${gc}">${pct}%</div></div></div><div class="goal-bar"><div class="goal-fill" style="width:${pct}%;background:${gc}"></div></div><div style="font-size:10px;color:var(--td);margin-top:5px">${pct>=100?'🎉 目標達成！':pct>=70?`あと¥${(goal-totalSales).toLocaleString()}で達成`:`残り¥${(goal-totalSales).toLocaleString()}（${100-pct}%）`}</div>${analysisHtml}</div>`;
+}
+
+// ══ 顧客一覧（容量バー付き） ══
+function rCustomers(){
+  const q=S._search||'';let list=S.customers.filter(c=>!q||c.name.includes(q)||(c.nickname||'').includes(q));list=[...list].sort((a,b)=>(Number(b.avg_sales)||0)-(Number(a.avg_sales)||0));const al=S.customers.filter(c=>{const d=bday(c);return d!==null&&d<=3;});
+  const limit=custLimit();const pct=Math.min(Math.round(S.customers.length/limit*100),100);const capColor=pct>=90?'var(--ng)':pct>=70?'var(--star)':'var(--p)';
+  const capHtml=`<div style="background:var(--card);border-radius:10px;padding:9px 12px;margin-bottom:9px;border:1px solid var(--cb)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div style="font-size:11px;font-weight:700">${planBadgeHtml(S.planId)}</div><div style="font-size:11px;color:${capColor};font-weight:800">${S.customers.length} / ${limit>=99999?'∞':limit}名</div></div><div class="cap-bar"><div class="cap-fill" style="width:${pct}%;background:${capColor}"></div></div>${pct>=90?`<div style="font-size:10px;color:var(--ng);margin-top:4px">上限まで残り${limit-S.customers.length}名 <button class="bo bsm" style="font-size:10px;color:var(--ng);border-color:rgba(198,40,40,.3)" onclick="showUpgradeModal()">アップグレード</button></div>`:''}
+  </div>`;
+  return`<div class="sh"><span class="st">👥 顧客一覧</span><button class="bp bsm" onclick="openAddChoice()">＋ 追加</button></div>
+  ${al.map(c=>{const d=bday(c);return`<div class="alrt">🎂 <strong>${esc(c.name)}</strong>様の誕生日まで${d===0?'本日！':d+'日'}</div>`;}).join('')}
+  ${capHtml}
+  <div style="margin-bottom:9px"><input class="inp" placeholder="🔍 名前・ニックネームで検索..." value="${esc(q)}" oninput="S._search=this.value;render()"></div>
+  <div style="font-size:10px;color:var(--td);margin-bottom:7px">登録 ${S.customers.length}名 / 表示 ${list.length}名</div>
+  ${list.length===0?'<div class="empty">顧客が見つかりません</div>':list.map(c=>{const r=rnk(c);const b=bday(c);const av=c.photo?`<div class="cust-avatar"><img src="${c.photo}" alt="${esc(c.name)}"></div>`:`<div class="cust-avatar">${c.name.charAt(0)}</div>`;
+  return`<div class="cc" onclick="openDetail(${c.id})"><div style="display:flex;gap:10px;align-items:center">${av}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:14px;font-weight:800">${esc(c.name)}${b!==null?' 🎂':''}</div><div style="font-size:10px;color:var(--td)">${esc(c.name_kana||'')}${c.nickname?' 「'+esc(c.nickname)+'」':''}</div></div><div style="text-align:right;flex-shrink:0"><div style="font-size:11px;font-weight:700;color:${r.col}">${r.icon} ${r.label}</div><div style="font-size:13px;font-weight:800;color:var(--p)">¥${(Number(c.avg_sales)||0).toLocaleString()}</div><div>${stars(r.stars)}</div></div></div><div style="display:flex;flex-wrap:wrap;margin-top:3px">${c.job?`<span class="tag" style="background:var(--pl);color:var(--p)">${esc(c.job)}</span>`:''}${c.douhan?'<span class="tag" style="background:var(--okb);color:var(--ok)">同伴○</span>':''}${(c.success_stories&&c.success_stories.length)?`<span class="tag" style="background:var(--okb);color:var(--ok)">✅${c.success_stories.length}</span>`:''}</div></div></div></div>`;}).join('')}`;
+}
+
+// ＋追加ボタン
+function openAddChoice(){
+  if(!canAddCust()){showUpgradeModal();return;}
+  openM(`<div class="mt">＋ 新規顧客登録<button class="bo bsm" onclick="closeM()">✕</button></div><div style="display:flex;gap:10px"><div onclick="closeM();openOcr()" style="flex:1;border:1.5px solid var(--cb);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:var(--pl)"><div style="font-size:28px;margin-bottom:6px">📷</div><div style="font-size:12px;font-weight:800;color:var(--p)">写真から登録</div><div style="font-size:10px;color:var(--td);margin-top:3px">名刺・電話帳・LINE</div></div><div onclick="closeM();openForm(null)" style="flex:1;border:1.5px solid var(--cb);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:var(--card)"><div style="font-size:28px;margin-bottom:6px">✏️</div><div style="font-size:12px;font-weight:800;color:var(--p)">手動で登録</div><div style="font-size:10px;color:var(--td);margin-top:3px">フォームに入力</div></div></div>`);
+}
+
+// ══ LINE ══
+function rLine(){const c=S.lineCustomer;if(!c)return`<div class="sh"><span class="st">💬 LINE文章生成</span></div><div style="font-size:11px;color:var(--td);margin-bottom:9px">顧客を選んでください</div>${S.customers.map(cu=>{const r=rnk(cu);const av=cu.photo?`<img src="${cu.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0">`:`<div style="width:32px;height:32px;border-radius:50%;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--p);flex-shrink:0">${cu.name.charAt(0)}</div>`;return`<div class="cc" onclick="selLine(${cu.id})"><div style="display:flex;gap:9px;align-items:center">${av}<div style="flex:1"><div style="font-size:13px;font-weight:800">${esc(cu.name)} ${cu.nickname?`(${esc(cu.nickname)})`:''}</div>${(cu.success_stories&&cu.success_stories.length)?`<div style="font-size:10px;color:var(--ok)">✅ 成功事例${cu.success_stories.length}件</div>`:''}</div><div style="text-align:right"><div style="font-size:11px;color:${r.col}">${r.icon}</div><div style="font-size:12px;font-weight:800;color:var(--p)">¥${(Number(cu.avg_sales)||0).toLocaleString()}</div></div></div></div>`;}).join('')}`;
+  const pts=[{k:'casual',icon:'😊',t:'① カジュアル型'},{k:'business',icon:'💼',t:'② ビジネス型'},{k:'flirty',icon:'💕',t:'③ 色恋型'}];let body='';if(S.lineLoading)body=`<div style="text-align:center;padding:30px 0"><div class="spin"></div><div style="color:var(--p);font-size:12px">3パターンを生成中…</div></div>`;else if(S.lineMessages?.error)body=`<div style="color:var(--ng);padding:14px">${esc(S.lineMessages.error)}</div>`;else if(S.lineMessages)body=pts.map(p=>{const m=S.lineMessages[p.k];if(!m)return'';return`<div class="pcard"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="font-size:12px;font-weight:800;color:var(--p)">${p.icon} ${p.t}</div><button class="bo bsm" id="cp-${p.k}" onclick="cpLine('${p.k}')">📋 コピー</button></div><div class="pb" id="msg-${p.k}">${esc(m)}</div><div style="margin-top:7px"><button class="spill" onclick="addSuccess(${c.id},'${p.k}')">✅ 効いた！次回に活かす</button></div></div>`;}).join('');
+  return`<div class="sh"><span class="st">💬 LINE文章生成</span></div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><div><div style="font-size:10px;color:var(--td)">対象顧客</div><div style="font-weight:800;color:var(--p)">${esc(c.name)} 様</div>${(c.success_stories&&c.success_stories.length)?`<div style="font-size:10px;color:var(--ok)">✅ 成功事例${c.success_stories.length}件参照</div>`:''}</div><div style="display:flex;gap:5px"><button class="bp bsm" onclick="genLine()">🔄 再生成</button><button class="bo bsm" onclick="S.lineCustomer=null;render()">✕</button></div></div>${body}`;}
+
+// ══ 執事 ══
+function rButler(){const hist=S.threads||[];if(!hist.length){return`<div style="text-align:center;padding:30px 16px"><div style="font-size:40px;margin-bottom:10px">🎩</div><div style="font-size:14px;font-weight:800;color:var(--p);margin-bottom:6px">${esc(S.butlerName)}</div><div style="font-size:12px;color:var(--td);line-height:1.9;margin-bottom:16px">お嬢様、本日はいかがなさいましたか？<br>営業のご相談、お悩み、なんでもどうぞ。</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">${['LINEを考えて','今日の営業戦略は？','しんどかった…','お客さんを増やしたい','おすすめ香水を教えて'].map(t=>`<button class="bo bsm" onclick="qm('${t}')">${t}</button>`).join('')}</div></div>`;}
+  return`<div id="chat-area" style="padding-bottom:4px">${hist.map(m=>{if(m.role==='user')return`<div style="display:flex;justify-content:flex-end;margin-bottom:10px"><div class="ubub">${esc(m.content)}</div></div>`;return`<div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:10px"><div style="width:30px;height:30px;border-radius:50%;background:var(--p);color:var(--btxt);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🎩</div><div class="cbub">${esc(m.content)}</div></div>`;}).join('')}${S.butlerLoading?`<div style="display:flex;gap:8px;align-items:flex-end"><div style="width:30px;height:30px;border-radius:50%;background:var(--p);color:var(--btxt);display:flex;align-items:center;justify-content:center;font-size:14px">🎩</div><div class="cbub" style="opacity:.6">…</div></div>`:''}<div style="display:flex;gap:5px;margin-top:12px;flex-wrap:wrap"><button class="bo bsm" onclick="clearThread()">🗑 クリア</button>${S.customers.slice(0,3).map(c=>`<button class="bo bsm" onclick="qm('${esc(c.name)}さんへのLINEを考えて')" style="font-size:10px">${esc(c.name)}</button>`).join('')}</div></div>`;}
+
+// ══ カレンダー ══
+function rCalendar(){const y=S.calYear,m=S.calMonth;const mns=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];const dns=['日','月','火','水','木','金','土'];const first=new Date(y,m,1).getDay();const days=new Date(y,m+1,0).getDate();const now=new Date(),ty=now.getFullYear(),tm=now.getMonth(),td=now.getDate();const mp=String(m+1).padStart(2,'0'),ms=`${y}-${mp}`;const evs={};
+  S.customers.forEach(c=>{if(c.birthday){const p=c.birthday.split('-');if(parseInt(p[1])-1===m){const d=parseInt(p[2]);if(!evs[d])evs[d]=[];evs[d].push({type:'bday',name:c.name});}}if(c.last_visit&&c.last_visit.startsWith(ms)){const d=parseInt(c.last_visit.split('-')[2]);if(!evs[d])evs[d]=[];evs[d].push({type:'visit',name:c.name});}if(c.important_dates){const re=/(\d{1,2})\/(\d{1,2})/g;let match;while((match=re.exec(c.important_dates))!==null){if(parseInt(match[1])-1===m){const d=parseInt(match[2]);if(!evs[d])evs[d]=[];evs[d].push({type:'special',name:c.important_dates});}}}});
+  (S.calEvents||[]).filter(e=>e.date&&e.date.startsWith(ms)).forEach(e=>{const d=parseInt(e.date.split('-')[2]);if(!evs[d])evs[d]=[];evs[d].push({type:e.type||'note',name:e.title});});
+  let cells='';for(let i=0;i<first;i++)cells+=`<div class="cal-d oth"></div>`;for(let d=1;d<=days;d++){const isT=y===ty&&m===tm&&d===td;const de=evs[d]||[];const hasBd=de.some(e=>e.type==='bday'),hasVt=de.some(e=>e.type!=='bday'),hasSp=de.some(e=>e.type==='special');const dots=[hasBd?`<div class="cal-dot" style="background:var(--a)"></div>`:'',hasVt?`<div class="cal-dot" style="background:var(--p)"></div>`:'',hasSp?`<div class="cal-dot" style="background:var(--star)"></div>`:''].filter(Boolean).join('');const ds=`${y}-${mp}-${String(d).padStart(2,'0')}`;cells+=`<div class="cal-d ${isT?'tod':''}" onclick="showCalDayFull('${ds}')" style="${hasBd&&!isT?'color:var(--a);font-weight:800':''}"><span>${d}</span>${dots?`<div style="display:flex;justify-content:center;margin-top:1px">${dots}</div>`:''}</div>`;}
+  const allEvs=Object.entries(evs).sort((a,b)=>Number(a[0])-Number(b[0]));
+  return`<div class="sh"><span class="st">📅 カレンダー</span><button class="bp bsm" onclick="openCalAdd('')">＋ 予定</button></div><div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><button class="bo bsm" onclick="S.calMonth--;if(S.calMonth<0){S.calMonth=11;S.calYear--;}render()">‹</button><div style="font-size:14px;font-weight:800;color:var(--p)">${y}年 ${mns[m]}</div><button class="bo bsm" onclick="S.calMonth++;if(S.calMonth>11){S.calMonth=0;S.calYear++;}render()">›</button></div><div class="cal-grid">${dns.map((d,i)=>`<div class="cal-dh" style="${i===0?'color:var(--ng)':i===6?'color:var(--p)':''}">${d}</div>`).join('')}${cells}</div></div><div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--td)"><div class="cal-dot" style="background:var(--a);width:8px;height:8px"></div>誕生日</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--td)"><div class="cal-dot" style="background:var(--p);width:8px;height:8px"></div>来店・予定</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--td)"><div class="cal-dot" style="background:var(--star);width:8px;height:8px"></div>記念日</div></div>${allEvs.length===0?'<div class="empty" style="padding:14px">今月のイベントはありません</div>':`<div class="sech" style="margin-top:0">今月のイベント</div>`+allEvs.map(([d,es])=>es.map(e=>`<div class="c2b" style="margin-bottom:5px;display:flex;align-items:center;gap:8px;cursor:pointer" onclick="showCalDayFull('${ms}-${String(d).padStart(2,'0')}')"><div style="font-size:11px;font-weight:800;color:var(--p);min-width:26px">${d}日</div><div style="font-size:12px">${e.type==='bday'?'🎂':'●'} ${esc(e.name)}</div></div>`).join('')).join('')}`;}
+
+function showSchedDetail(ev){if(typeof ev==='string')ev=JSON.parse(ev);const c=ev.customerId?S.customers.find(x=>x.id===ev.customerId):null;let html=`<div class="mt">📅 ${esc(ev.label)}<button class="bo bsm" onclick="closeM()">✕</button></div>`;if(c){html+=`<div class="c2b" style="margin-bottom:10px"><div style="font-size:13px;font-weight:800">${esc(c.name)} 様</div><div style="font-size:11px;color:var(--td)">${esc(c.job||'')} ¥${(Number(c.avg_sales)||0).toLocaleString()}/月</div></div>`;}if(ev.time)html+=`<div style="font-size:12px;color:var(--td);margin-bottom:10px">時刻：${esc(ev.time)}</div>`;html+=`<div style="display:flex;gap:6px;flex-wrap:wrap">`;if(c)html+=`<button class="bp bsm" onclick="closeM();selLine(${c.id})">💬 LINE生成</button><button class="bo bsm" onclick="closeM();openDetail(${c.id})">👤 顧客詳細</button>`;if(ev.evId)html+=`<button class="ba bsm" onclick="delCalEv(${ev.evId});closeM()">🗑 削除</button>`;html+=`</div>`;openM(html);}
+function showCalDayFull(dateStr){const mn=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];const parts=dateStr.split('-');const y=parts[0],m=parseInt(parts[1])-1,d=parseInt(parts[2]);const mp=String(m+1).padStart(2,'0'),ds=`${y}-${mp}-${String(d).padStart(2,'0')}`;const bdCusts=S.customers.filter(c=>{if(!c.birthday)return false;const p=c.birthday.split('-');return parseInt(p[1])-1===m&&parseInt(p[2])===d;});const visitCusts=S.customers.filter(c=>c.last_visit===ds);const manualEvs=(S.calEvents||[]).filter(e=>e.date===ds);let html=`<div class="mt">${y}年${mn[m]}${d}日<button class="bo bsm" onclick="closeM()">✕</button></div>`;if(bdCusts.length){html+=`<div class="sech" style="margin-top:0">🎂 誕生日</div>`;html+=bdCusts.map(c=>`<div class="c2b" style="margin-bottom:5px"><div style="font-size:13px;font-weight:800">${esc(c.name)} 様</div></div>`).join('');}if(visitCusts.length){html+=`<div class="sech">来店記録</div>`;html+=visitCusts.map(c=>`<div class="cc" style="margin-bottom:5px" onclick="closeM();openDetail(${c.id})"><div style="font-size:13px;font-weight:800">${esc(c.name)}</div></div>`).join('');}if(manualEvs.length){html+=`<div class="sech">予定</div>`;html+=manualEvs.map(e=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--cb)"><div style="flex:1"><div style="font-size:12px;font-weight:700">${e.time?e.time+' ':''} ${esc(e.title)}</div></div><button class="ba bsm" onclick="delCalEv(${e.id});closeM()">削除</button>${e.customerId?`<button class="bo bsm" onclick="closeM();selLine(${e.customerId})">LINE</button>`:''}</div>`).join('');}html+=`<button class="bp bsm" style="width:100%;margin-top:12px" onclick="closeM();openCalAdd('${ds}')">＋ この日に予定を追加</button>`;openM(html);}
+function openCalAdd(dateStr){const c_list=S.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');openM(`<div class="mt">📅 予定を追加<button class="bo bsm" onclick="closeM()">✕</button></div><div class="fld"><label class="lbl">タイトル</label><input class="inp" id="ev-title" placeholder="例：田中様 来店予約"></div><div class="row"><div class="fld"><label class="lbl">日付</label><input class="inp" type="date" id="ev-date" value="${dateStr||todayStr()}"></div><div class="fld"><label class="lbl">時刻（任意）</label><input class="inp" type="time" id="ev-time"></div></div><div class="fld"><label class="lbl">関連顧客（任意）</label><select class="inp" id="ev-cust"><option value="">なし</option>${c_list}</select></div><div class="fld"><label class="lbl">種類</label><select class="inp" id="ev-type"><option value="visit">来店予約</option><option value="douhan">同伴</option><option value="after">アフター</option><option value="note">メモ</option></select></div><div style="display:flex;gap:6px;margin-top:5px"><button class="bp bsm" onclick="saveCalEv()">💾 保存</button><button class="bo bsm" onclick="closeM()">キャンセル</button></div>`);}
+function saveCalEv(){const title=document.getElementById('ev-title')?.value?.trim();if(!title){toast('タイトルのご入力をお願いいたします');return;}const ev={id:Date.now(),date:document.getElementById('ev-date')?.value||todayStr(),time:document.getElementById('ev-time')?.value||'',title,customerId:parseInt(document.getElementById('ev-cust')?.value)||null,type:document.getElementById('ev-type')?.value||'note'};if(!S.calEvents)S.calEvents=[];S.calEvents.push(ev);sv();closeM();toast('かしこまりました。予定を追加いたしました');render();}
+function delCalEv(id){S.calEvents=(S.calEvents||[]).filter(e=>e.id!==id);sv();render();}
+
+// ══ 成績 ══
+function rPerformance(){const sorted=[...S.customers].sort((a,b)=>(Number(b.avg_sales)||0)-(Number(a.avg_sales)||0));const total=sorted.reduce((s,c)=>s+(Number(c.avg_sales)||0),0);const goal=Number(S.monthlyGoal)||300000;const pct=Math.min(Math.round(total/goal*100),100);const vip=sorted.filter(c=>(Number(c.avg_sales)||0)>=100000).length;const pre=sorted.filter(c=>{const s=Number(c.avg_sales)||0;return s>=50000&&s<100000;}).length;const reg=sorted.filter(c=>{const s=Number(c.avg_sales)||0;return s>=20000&&s<50000;}).length;const maxS=Number(sorted[0]?.avg_sales)||1;const gc=pct>=100?'var(--ok)':pct>=70?'var(--p)':'var(--ng)';const perfHtml=S.perfAnalysis&&isToday(S.perfAnalysisDate)?`<div class="butler-analysis" style="margin-top:0"><div style="font-size:10px;color:var(--td);margin-bottom:4px">🎩 ${esc(S.butlerName)}の提案</div><div style="font-size:12px;line-height:1.8;white-space:pre-line">${esc(S.perfAnalysis)}</div></div>`:`<button class="bo bsm" style="width:100%;margin-top:9px" onclick="loadPerfAnalysis()">🎩 執事に営業提案をもらう</button>`;
+  return`<div class="sh"><span class="st">📊 成績</span></div><div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px"><div><div style="font-size:10px;color:var(--td)">月間予想売上</div><div style="font-size:22px;font-weight:800;color:var(--p)">¥${total.toLocaleString()}</div></div><div style="text-align:right"><div style="font-size:10px;color:var(--td)">目標 ¥${goal.toLocaleString()}</div><div style="font-size:18px;font-weight:800;color:${gc}">${pct}%</div></div></div><div class="goal-bar"><div class="goal-fill" style="width:${pct}%;background:${gc}"></div></div>${perfHtml}</div><div class="card"><div class="sech" style="margin-top:0">ランク分布</div><div style="display:flex;gap:6px">${[['👑','VIP Gold',vip,'var(--star)'],['💎','Premium',pre,'var(--p)'],['⭐','Regular',reg,'var(--p)'],['🌱','新規',sorted.length-vip-pre-reg,'var(--ok)']].map(([ic,lb,cnt,col])=>`<div style="flex:1;text-align:center;background:var(--card2);border-radius:8px;padding:8px 4px"><div style="font-size:14px">${ic}</div><div style="font-size:16px;font-weight:800;color:${col}">${cnt}</div><div style="font-size:9px;color:var(--td)">${lb}</div></div>`).join('')}</div></div><div class="sech">売上ランキング</div>${sorted.map((c,i)=>{const r=rnk(c);const s=Number(c.avg_sales)||0;const p2=Math.round(s/maxS*100);const av=c.photo?`<img src="${c.photo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0">`:`<div style="width:28px;height:28px;border-radius:50%;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--p);flex-shrink:0">${c.name.charAt(0)}</div>`;return`<div class="c2b" style="margin-bottom:7px;cursor:pointer" onclick="openDetail(${c.id})"><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">${av}<div style="flex:1"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:11px;color:var(--td);font-weight:800">${i+1}</span><span style="font-size:13px;font-weight:800">${esc(c.name)}</span><span>${r.icon}</span></div></div><span style="font-size:13px;font-weight:800;color:var(--p)">¥${s.toLocaleString()}</span></div><div class="sbar"><div class="sfill" style="width:${p2}%"></div></div></div>`;}).join('')}`;}
+
+// ══ 設定（プラン変更セクション付き） ══
+function rSettings(){const z=zdiac(S.userZodiac);const plan=getPlan();const limit=custLimit();const pct=Math.min(Math.round(S.customers.length/(limit>=99999?100:limit)*100),100);
+  return`<div class="sh"><span class="st">⚙ 設定</span></div>
+  <div class="card"><div class="sech" style="margin-top:0">テーマカラー</div><div class="sw-grid">${THEMES.map(t=>`<div class="sw-it ${S.themeId===t.id?'on':''}" onclick="setTheme('${t.id}')"><div class="sw-dot" style="background:${t.dot}"></div><div class="sw-nm">${t.n}</div>${S.themeId===t.id?`<div style="font-size:8px;color:var(--p);margin-top:2px">✓</div>`:''}</div>`).join('')}</div></div>
+  <div class="card"><div class="sech" style="margin-top:0">プロフィール</div>
+    <div class="fld"><label class="lbl">源氏名（ヘッダーに表示）</label><input class="inp" value="${esc(S.castName)}" placeholder="例：あいか" oninput="S.castName=this.value;updHdr();sv()"></div>
+    <div class="fld"><label class="lbl">執事の名前</label><input class="inp" value="${esc(S.butlerName)}" placeholder="例：セバスチャン" oninput="S.butlerName=this.value;sv()"></div>
+  </div>
+  <div class="card"><div class="sech" style="margin-top:0">あなたの星座</div>
+    <select class="inp" onchange="S.userZodiac=this.value;S.horoscope=null;sv();render()"><option value="">-- 選択してください --</option>${ZODIAC.map(z2=>`<option value="${z2.id}" ${S.userZodiac===z2.id?'selected':''}>${z2.sym} ${z2.n}（${z2.r}）</option>`).join('')}</select>
+    ${z?`<div style="font-size:10px;color:var(--td);margin-top:4px">現在：${z.sym} ${z.n}</div>`:''}
+  </div>
+  <div class="card"><div class="sech" style="margin-top:0">月間目標売上（円）</div>
+    <input class="inp" type="number" value="${esc(S.monthlyGoal||300000)}" placeholder="300000" min="0" step="10000" oninput="S.monthlyGoal=parseInt(this.value)||300000;sv()">
+  </div>
+  <div class="card">
+    <div class="sech" style="margin-top:0">📦 プラン</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div>${planBadgeHtml(S.planId)}</div>
+      <div style="font-size:11px;color:var(--td)">顧客 ${S.customers.length} / ${limit>=99999?'∞':limit}名</div>
+    </div>
+    <div class="cap-bar" style="margin-bottom:10px"><div class="cap-fill" style="width:${pct}%;background:var(--p)"></div></div>
+    <button class="bp bsm" style="width:100%" onclick="showPlanModal()">プランを変更する</button>
+  </div>
+  <div class="card"><div class="sech" style="margin-top:0">初期設定</div>
+    <button class="bo bsm" onclick="restartOnboarding()" style="color:var(--td)">🔄 初期設定をやり直す</button>
+  </div>
+  <div class="card"><div class="sech" style="margin-top:0">📮 お問い合わせ</div>
+    <div style="font-size:11px;color:var(--td);margin-bottom:9px;line-height:1.7">執事が思い通りに動かない場合や<br>ご要望がございましたら、お気軽にどうぞ。</div>
+    <a href="mailto:yorusyoku.my.app@gmail.com?subject=夜職MY執事へのお問い合わせ&body=【お問い合わせ内容】%0A%0A%0A【ご利用環境】%0Aブラウザ：%0A端末：%0A" class="bp bsm" style="display:inline-flex;align-items:center;gap:5px;text-decoration:none;width:100%;justify-content:center">📮 執事へのご要望・お問い合わせ</a>
+    <div style="font-size:10px;color:var(--tf);margin-top:6px;text-align:center">通常2営業日以内にご返答いたします</div>
+  </div>`;}
+
+function showPlanModal(){openM(`<div class="mt">📦 プランを選ぶ<button class="bo bsm" onclick="closeM()">✕</button></div><div style="font-size:11px;color:var(--td);margin-bottom:12px">※ デモ版のため決済は発生しません。本番リリース時に決済機能を実装します。</div>${renderPlanCards(false)}`);}
+function restartOnboarding(){obStep=0;obTmp={castName:S.castName,butlerName:S.butlerName,userZodiac:S.userZodiac,monthlyGoal:S.monthlyGoal};document.getElementById('ob-wrap').style.display='flex';renderOb();}
+
+// モーダル共通
+function openM(html){document.getElementById('mbox').innerHTML=html;document.getElementById('mbg').style.display='block';document.getElementById('mbg').scrollTop=0;}
+function closeM(){document.getElementById('mbg').style.display='none';}
+function mbgClick(e){if(e.target===document.getElementById('mbg'))closeM();}
+
+// 顧客詳細
+function openDetail(id){const c=S.customers.find(x=>x.id===id);if(!c)return;const r=rnk(c);const b=bday(c);const flds=[['ふりがな',c.name_kana],['ニックネーム',c.nickname],['誕生日',c.birthday?fmt(c.birthday)+(b!==null?` 🎂${b===0?'本日！':b+'日後'}`:'' ):''],['年齢',c.age?c.age+'歳':''],['血液型',c.blood_type],['職業',c.job],['勤務先',c.company],['エリア',c.area],['LINE ID',c.line_id],['初来店',fmt(c.first_visit)],['最終来店',fmt(c.last_visit)],['来店回数',c.visit_count?c.visit_count+'回':''],['月売上',c.avg_sales?'¥'+Number(c.avg_sales).toLocaleString():''],['ドリンク',c.favorite_drink],['好み話題',c.favorite_topics],['NG',c.ng_topics],['記念日',c.important_dates],['同伴',c.douhan?'✅ OK':'❌ NG']].filter(([,v])=>v);const photoHtml=c.photo?`<div style="text-align:center;margin-bottom:12px"><img src="${c.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2.5px solid var(--pb)"><br><button class="bo bsm" style="margin-top:6px;font-size:10px" onclick="S._photoTargetId=${id};document.getElementById('photo-file').click()">📷 写真を変更</button></div>`:`<div style="text-align:center;margin-bottom:12px"><div style="width:72px;height:72px;border-radius:50%;background:var(--pl);border:2px solid var(--cb);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--p);margin:0 auto 6px">${c.name.charAt(0)}</div><button class="bo bsm" style="font-size:10px" onclick="S._photoTargetId=${id};document.getElementById('photo-file').click()">📷 顔写真を登録</button></div>`;openM(`<div class="mt">✨ ${esc(c.name)} 様<button class="bo bsm" onclick="closeM()">✕</button></div>${photoHtml}<div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="font-size:18px">${r.icon}</span><div><div style="font-weight:800;color:${r.col}">${r.label}</div><div>${stars(r.stars)}</div></div><div style="margin-left:auto;text-align:right"><div style="font-size:16px;font-weight:800;color:var(--p)">¥${(Number(c.avg_sales)||0).toLocaleString()}</div><div style="font-size:9px;color:var(--td)">/月</div></div></div><div class="card" style="margin-bottom:9px">${flds.map(([l,v])=>`<div class="infr"><span class="infl">${l}</span><span class="infv">${esc(v)}</span></div>`).join('')}${c.notes?`<div style="margin-top:8px"><div class="lbl">備考</div><div style="font-size:12px;line-height:1.8;white-space:pre-line">${esc(c.notes)}</div></div>`:''}</div>${(c.success_stories&&c.success_stories.length)?`<div class="sech" style="margin-top:0">✅ 成功事例（${c.success_stories.length}/10件）</div><div style="margin-bottom:11px">${c.success_stories.map((s,i)=>`<div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:4px"><span style="color:var(--ok);font-size:11px;flex-shrink:0">✅</span><span style="font-size:12px;flex:1">${esc(s)}</span><button style="background:none;border:none;color:var(--ng);cursor:pointer;font-size:11px;padding:0" onclick="delSuccess(${id},${i})">✕</button></div>`).join('')}</div>`:''}<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="bp bsm" onclick="closeM();selLine(${c.id})">💬 LINE生成</button><button class="bp bsm" style="background:var(--pl);color:var(--p)" onclick="closeM();setCtxGo(${c.id})">🎩 執事に相談</button><button class="bo bsm" onclick="closeM();openForm(${c.id})">✏️ 編集</button><button class="ba bsm" onclick="closeM();delC(${c.id})">🗑 削除</button></div>`);}
+
+// 顧客登録フォーム
+function openForm(id){const ex=id?S.customers.find(c=>c.id===id):null;const c=ex||{name:'',name_kana:'',nickname:'',age:'',birthday:'',blood_type:'',job:'',company:'',area:'',line_id:'',first_visit:'',last_visit:'',avg_sales:'',visit_count:'',favorite_drink:'',favorite_food:'',favorite_topics:'',ng_topics:'',important_dates:'',smoking:false,douhan:false,notes:'',success_stories:[],photo:''};const blood=['A型','B型','O型','AB型'];const photoSec=`<div class="fld"><label class="lbl">顔写真</label><div id="form-photo-wrap" style="${c.photo?'':'display:none'};margin-bottom:8px;text-align:center"><img id="form-photo-preview" src="${c.photo||''}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--pb)"></div><input type="hidden" id="f-photo" value="${esc(c.photo||'')}"><button type="button" class="bo bsm" onclick="S._photoTargetId=null;document.getElementById('photo-file').click()" style="width:100%">📷 ${c.photo?'写真を変更':'写真を追加（任意）'}</button></div>`;openM(`<div class="mt">${ex?'✏️ '+esc(c.name)+' 様を編集':'➕ 新規顧客登録'}<button class="bo bsm" onclick="closeM()">✕</button></div>${photoSec}<div class="fld"><label class="lbl">名前 *</label><input class="inp" id="f-name" value="${esc(c.name)}" placeholder="山田 太郎"></div><div class="row"><div class="fld"><label class="lbl">ふりがな</label><input class="inp" id="f-kana" value="${esc(c.name_kana)}"></div><div class="fld"><label class="lbl">ニックネーム</label><input class="inp" id="f-nick" value="${esc(c.nickname)}"></div></div><div class="row"><div class="fld"><label class="lbl">年齢</label><input class="inp" type="number" id="f-age" value="${esc(c.age)}" min="18" max="99"></div><div class="fld"><label class="lbl">誕生日</label><input class="inp" type="date" id="f-bday" value="${esc(c.birthday)}"></div></div><div class="fld"><label class="lbl">血液型</label><select class="inp" id="f-blood"><option value="">未選択</option>${blood.map(b=>`<option ${c.blood_type===b?'selected':''}>${b}</option>`).join('')}</select></div><div class="row"><div class="fld"><label class="lbl">職業</label><input class="inp" id="f-job" value="${esc(c.job)}"></div><div class="fld"><label class="lbl">勤務先</label><input class="inp" id="f-company" value="${esc(c.company)}"></div></div><div class="row"><div class="fld"><label class="lbl">エリア</label><input class="inp" id="f-area" value="${esc(c.area)}"></div><div class="fld"><label class="lbl">LINE ID</label><input class="inp" id="f-lid" value="${esc(c.line_id)}"></div></div><div class="row"><div class="fld"><label class="lbl">初来店日</label><input class="inp" type="date" id="f-first" value="${esc(c.first_visit)}"></div><div class="fld"><label class="lbl">最終来店日</label><input class="inp" type="date" id="f-last" value="${esc(c.last_visit)}"></div></div><div class="row"><div class="fld"><label class="lbl">来店回数</label><input class="inp" type="number" id="f-vc" value="${esc(c.visit_count)}" min="0"></div><div class="fld"><label class="lbl">月売上（円）</label><input class="inp" type="number" id="f-sales" value="${esc(c.avg_sales)}" min="0"></div></div><div class="fld"><label class="lbl">好みドリンク</label><input class="inp" id="f-drink" value="${esc(c.favorite_drink)}"></div><div class="fld"><label class="lbl">好み話題・趣味</label><input class="inp" id="f-topics" value="${esc(c.favorite_topics)}"></div><div class="fld"><label class="lbl">NGトピック</label><input class="inp" id="f-ng" value="${esc(c.ng_topics)}"></div><div class="fld"><label class="lbl">記念日・重要な日</label><input class="inp" id="f-dates" value="${esc(c.important_dates)}" placeholder="例：5/12 会社設立記念日"></div><div class="chkr"><label class="chl"><input type="checkbox" id="f-smoke" ${c.smoking?'checked':''}> 喫煙</label><label class="chl"><input type="checkbox" id="f-dou" ${c.douhan?'checked':''}> 同伴OK</label></div><div class="fld"><label class="lbl">備考</label><textarea class="inp" id="f-notes">${esc(c.notes)}</textarea></div><div style="display:flex;gap:6px;margin-top:5px"><button class="bp bsm" onclick="saveC(${id||'null'})">💾 保存</button><button class="bo bsm" onclick="closeM()">キャンセル</button></div>`);}
+
+function gv(id){return document.getElementById(id)?.value?.trim()||'';}
+function gn(id){return parseInt(document.getElementById(id)?.value)||0;}
+function gb(id){return document.getElementById(id)?.checked||false;}
+function saveC(id){if(!gv('f-name')){toast('お名前のご入力をお願いいたします');return;}const photo=document.getElementById('f-photo')?.value||'';const form={name:gv('f-name'),name_kana:gv('f-kana'),nickname:gv('f-nick'),age:gn('f-age'),birthday:gv('f-bday'),blood_type:gv('f-blood'),job:gv('f-job'),company:gv('f-company'),area:gv('f-area'),line_id:gv('f-lid'),first_visit:gv('f-first'),last_visit:gv('f-last'),visit_count:gn('f-vc'),avg_sales:gn('f-sales'),favorite_drink:gv('f-drink'),favorite_topics:gv('f-topics'),ng_topics:gv('f-ng'),important_dates:gv('f-dates'),smoking:gb('f-smoke'),douhan:gb('f-dou'),notes:document.getElementById('f-notes')?.value?.trim()||'',photo};if(id&&id!=='null'){const i=S.customers.findIndex(c=>c.id===id);if(i>=0)S.customers[i]={...S.customers[i],...form};toast('かしこまりました。更新いたしました');}else{if(!canAddCust()){showUpgradeModal();closeM();return;}S.customers.push({...form,id:Date.now(),success_stories:[]});toast('かしこまりました。登録いたしました');}sv();closeM();render();}
+function delC(id){if(!confirm('削除しますか？'))return;S.customers=S.customers.filter(c=>c.id!==id);sv();toast('削除いたしました');render();}
+function addSuccess(cid,pk){const c=S.customers.find(x=>x.id===cid);const el=document.getElementById('msg-'+pk);if(!c||!el)return;if(!c.success_stories)c.success_stories=[];c.success_stories.push(el.textContent.slice(0,30)+'…');if(c.success_stories.length>10)c.success_stories=c.success_stories.slice(-10);sv();toast('承知いたしました。成功事例を登録いたしました（'+c.success_stories.length+'/10件）');render();}
+function delSuccess(cid,idx){const c=S.customers.find(x=>x.id===cid);if(!c||!c.success_stories)return;c.success_stories.splice(idx,1);sv();openDetail(cid);}
+function selLine(id){const c=S.customers.find(x=>x.id===id);if(!c)return;S.lineCustomer=c;S.lineMessages=null;closeM();go('line');setTimeout(()=>genLine(),200);}
+function cpLine(k){const el=document.getElementById('msg-'+k);if(!el)return;const txt=el.textContent;const btn=document.getElementById('cp-'+k);function onSuccess(){if(btn){btn.textContent='✅ コピー済';setTimeout(()=>btn.textContent='📋 コピー',2500);}toast('コピーいたしました');}function onFail(){// フォールバック：テキストエリアを使った旧方式
+  try{const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);onSuccess();}catch(e){toast('コピーに失敗いたしました。長押しをお試しくださいませ');}}
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(onSuccess).catch(onFail);}else{onFail();}}
+function setCtxGo(id){S._ctxId=id;go('butler');}
+function clearThread(){S.threads=[];S._ctxId=null;sv();render();}
+function qm(t){const inp=document.getElementById('cmsg');if(inp){inp.value=t;sendButler();}}
+function scrollChat(){setTimeout(()=>{const c=document.getElementById('cnt');if(c)c.scrollTop=c.scrollHeight;},60);}
+
+// OCR
+function openOcr(){S.ocrMode='card';openM(`<div class="mt">📷 写真から顧客登録<button class="bo bsm" onclick="closeM()">✕</button></div><div style="font-size:11px;color:var(--td);margin-bottom:11px">名刺・電話帳・LINEプロフィールを読み取って自動入力します。</div><div style="display:flex;gap:8px;margin-bottom:14px"><div class="ocr-type-btn on" id="ot-card" onclick="selOcrType('card')"><span class="oi">💼</span><div class="ol">名刺</div></div><div class="ocr-type-btn" id="ot-contact" onclick="selOcrType('contact')"><span class="oi">📱</span><div class="ol">電話帳</div></div><div class="ocr-type-btn" id="ot-line" onclick="selOcrType('line')"><span class="oi">💬</span><div class="ol">LINE</div></div></div><div class="ocr-zone" onclick="triggerOcrFile()"><div style="font-size:32px;margin-bottom:8px">📷</div><div style="font-weight:800;color:var(--p);font-size:13px;margin-bottom:4px">タップして画像を選択</div><div style="font-size:10px;color:var(--td)">JPG / PNG 対応</div></div><div id="ocr-result"></div>`);}
+function selOcrType(t){S.ocrMode=t;['card','contact','line'].forEach(id=>{const el=document.getElementById('ot-'+id);if(el)el.className='ocr-type-btn'+(t===id?' on':'');});}
+function triggerOcrFile(){document.getElementById('ocr-file').click();}
+function handleOcrDrop(e){e.preventDefault();const file=e.dataTransfer?.files?.[0];if(file&&file.type.startsWith('image/'))processOcrImage(file);}
+function handleOcrFile(e){const file=e.target.files?.[0];if(file)processOcrImage(file);e.target.value='';}
+async function processOcrImage(file){const el=document.getElementById('ocr-result');if(!el)return;el.innerHTML=`<div style="text-align:center;padding:20px 0"><div class="spin"></div><div style="color:var(--p);font-size:12px;font-weight:700">AIが読み取っています…</div></div>`;const b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});const prompts={card:`この名刺からJSONのみで：{"name":"氏名","name_kana":"ふりがな","job":"役職","company":"会社","area":"エリア","tel":"電話","email":"メール"}`,contact:`この連絡先スクショからJSONのみで：{"name":"氏名","name_kana":"ふりがな","tel":"電話","area":"住所","company":"会社"}`,line:`このLINEプロフィールからJSONのみで：{"name":"表示名","line_id":"LINE ID","profile_text":"プロフィール文"}`};try{const res=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:file.type||'image/jpeg',data:b64}},{type:'text',text:prompts[S.ocrMode]||prompts.card}]}]})});const d=await res.json();const raw=(d.content||[]).map(x=>x.text||'').join('').replace(/```json|```/g,'').trim();showOcrResult(JSON.parse(raw));}catch(e){el.innerHTML=`<div style="color:var(--ng);font-size:12px;margin-top:10px">⚠️ 読み取りに失敗しました。<button class="bo bsm" style="margin-top:8px" onclick="triggerOcrFile()">別の画像を選ぶ</button></div>`;}}
+function showOcrResult(data){const el=document.getElementById('ocr-result');if(!el)return;const rows=[];if(data.name)rows.push(['氏名',data.name]);if(data.name_kana)rows.push(['ふりがな',data.name_kana]);if(data.job)rows.push(['役職',data.job]);if(data.company)rows.push(['会社',data.company]);if(data.area)rows.push(['エリア',data.area]);if(data.tel)rows.push(['電話',data.tel]);if(data.email)rows.push(['メール',data.email]);if(data.line_id)rows.push(['LINE ID',data.line_id]);if(!rows.length){el.innerHTML=`<div style="color:var(--ng);font-size:12px;margin-top:10px">情報を抽出できませんでした。<button class="bo bsm" style="margin-top:8px" onclick="triggerOcrFile()">別の画像を選ぶ</button></div>`;return;}const ocrId='ocr_'+Date.now();window[ocrId]=data;el.innerHTML=`<div style="margin-top:14px"><div style="font-size:11px;font-weight:800;color:var(--p);margin-bottom:8px">📋 読み取り結果</div><div class="card" style="margin-bottom:10px;padding:10px 12px">${rows.map(([l,v])=>`<div class="infr"><span class="infl">${l}</span><span class="infv">${esc(v)}</span></div>`).join('')}</div><div style="display:flex;gap:7px"><button class="bp bsm" style="flex:1" onclick="applyOcrData('${ocrId}')">✅ 登録フォームへ</button><button class="bo bsm" onclick="triggerOcrFile()">📷 撮り直す</button></div></div>`;}
+function applyOcrData(ocrId){const d=window[ocrId];if(!d)return;closeM();if(!canAddCust()){showUpgradeModal();return;}const blood=['A型','B型','O型','AB型'];openM(`<div class="mt">✅ OCR取込 → 顧客登録<button class="bo bsm" onclick="closeM()">✕</button></div><div style="background:var(--okb);border:1px solid rgba(46,125,50,.2);border-radius:8px;padding:8px 11px;margin-bottom:11px;font-size:11px;color:var(--ok);font-weight:700">📷 自動入力済み。確認・追記して保存してください。</div><div class="fld"><label class="lbl">顔写真（任意）</label><div id="form-photo-wrap" style="display:none;margin-bottom:8px;text-align:center"><img id="form-photo-preview" style="width:72px;height:72px;border-radius:50%;object-fit:cover"></div><input type="hidden" id="f-photo" value=""><button type="button" class="bo bsm" onclick="S._photoTargetId=null;document.getElementById('photo-file').click()" style="width:100%">📷 写真を追加（任意）</button></div><div class="fld"><label class="lbl">名前 *</label><input class="inp" id="f-name" value="${esc(d.name||'')}"></div><div class="row"><div class="fld"><label class="lbl">ふりがな</label><input class="inp" id="f-kana" value="${esc(d.name_kana||'')}"></div><div class="fld"><label class="lbl">ニックネーム</label><input class="inp" id="f-nick" value=""></div></div><div class="row"><div class="fld"><label class="lbl">年齢</label><input class="inp" type="number" id="f-age" value="" min="18"></div><div class="fld"><label class="lbl">誕生日</label><input class="inp" type="date" id="f-bday" value=""></div></div><div class="fld"><label class="lbl">血液型</label><select class="inp" id="f-blood"><option value="">未選択</option>${blood.map(b=>`<option>${b}</option>`).join('')}</select></div><div class="row"><div class="fld"><label class="lbl">職業</label><input class="inp" id="f-job" value="${esc(d.job||'')}"></div><div class="fld"><label class="lbl">勤務先</label><input class="inp" id="f-company" value="${esc(d.company||'')}"></div></div><div class="row"><div class="fld"><label class="lbl">エリア</label><input class="inp" id="f-area" value="${esc(d.area||'')}"></div><div class="fld"><label class="lbl">LINE ID</label><input class="inp" id="f-lid" value="${esc(d.line_id||'')}"></div></div><div class="row"><div class="fld"><label class="lbl">初来店日</label><input class="inp" type="date" id="f-first" value=""></div><div class="fld"><label class="lbl">最終来店日</label><input class="inp" type="date" id="f-last" value=""></div></div><div class="row"><div class="fld"><label class="lbl">来店回数</label><input class="inp" type="number" id="f-vc" value="0" min="0"></div><div class="fld"><label class="lbl">月売上（円）</label><input class="inp" type="number" id="f-sales" value="0" min="0"></div></div><div class="fld"><label class="lbl">好みドリンク</label><input class="inp" id="f-drink" value=""></div><div class="fld"><label class="lbl">好み話題・趣味</label><input class="inp" id="f-topics" value=""></div><div class="fld"><label class="lbl">NGトピック</label><input class="inp" id="f-ng" value=""></div><div class="fld"><label class="lbl">記念日</label><input class="inp" id="f-dates" value=""></div><div class="chkr"><label class="chl"><input type="checkbox" id="f-smoke"> 喫煙</label><label class="chl"><input type="checkbox" id="f-dou"> 同伴OK</label></div><div class="fld"><label class="lbl">備考</label><textarea class="inp" id="f-notes">${d.tel||d.email?`TEL: ${d.tel||''}\nMail: ${d.email||''}`:''}</textarea></div><div style="display:flex;gap:6px;margin-top:5px"><button class="bp bsm" onclick="saveC(null)">💾 登録する</button><button class="bo bsm" onclick="closeM()">キャンセル</button></div>`);}
+
+// AI処理
+function buildSysPrompt(ctx){
+  let s = PERSONA_LAYER(S.butlerName||'執事') + '\n\n' + SALES_DOMAIN;
+  if(S.castName) s += `\n\n【お嬢様のお名前】${S.castName}`;
+  if(S.customers.length) s += `\n\n【担当顧客一覧】\n` + S.customers.slice(0,8).map(c=>{
+    let l=`・${c.name}（${c.age||'?'}歳）月売上¥${(Number(c.avg_sales)||0).toLocaleString()}`;
+    if(c.favorite_topics) l+=` 趣味:${c.favorite_topics}`;
+    if(c.success_stories&&c.success_stories.length) l+=` 実績:「${c.success_stories.slice(-1)[0]}」`;
+    return l;
+  }).join('\n');
+  if(ctx){
+    s += `\n\n【今会話中の顧客詳細】\n`;
+    s += `お名前：${ctx.name}（${ctx.age||'?'}歳 ${ctx.job||''}）\n`;
+    s += `ドリンク：${ctx.favorite_drink||'不明'} / 話題：${ctx.favorite_topics||'不明'}\n`;
+    s += `NGトピック：${ctx.ng_topics||'なし'} / 備考：${ctx.notes||'なし'}\n`;
+    if(ctx.success_stories&&ctx.success_stories.length)
+      s += `成功事例：${ctx.success_stories.map(x=>`「${x}」`).join(' ')}`;
+  }
+  return s;
+}
+async function sendButler(){const inp=document.getElementById('cmsg');const msg=inp?.value?.trim();if(!msg||S.butlerLoading)return;inp.value='';inp.style.height='auto';if(!S.threads)S.threads=[];const ctx=detCtx(msg)||(S._ctxId?S.customers.find(x=>x.id===S._ctxId):null);S.threads.push({role:'user',content:msg});S.butlerLoading=true;render();scrollChat();const sys=buildSysPrompt(ctx);const msgs=S.threads.map(m=>({role:m.role,content:m.content}));try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:450,system:sys,messages:msgs})});const d=await r.json();const rep=(d.content||[]).map(x=>x.text||'').join('').trim();S.threads.push({role:'assistant',content:rep});if(S.threads.length>48)S.threads=S.threads.slice(-48);sv();}catch(e){S.threads.push({role:'assistant',content:'申し訳ございません、接続に問題が生じました。少々お待ちくださいませ。'});}S.butlerLoading=false;render();scrollChat();}
+document.getElementById('cmsg').addEventListener('keypress',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendButler();}});
+async function loadButlerSay(force=false){if(!force&&S.butlerSay&&isToday(S.butlerSayDate))return;S.butlerSayLoading=true;if(S.tab==='home')render();const top=S.customers.map(c=>({c,s:cscore(c)})).sort((a,b)=>b.s.score-a.s.score)[0];const z=zdiac(S.userZodiac);const amzItems=['香水','シャンプー','美容液','バスグッズ','アクセサリー'];const randItem=amzItems[Math.floor(Math.random()*amzItems.length)];const stateHint = top ? `本日最優先のお客様は${top.c.name}様（来店スコア${top.s.score}点）。` : '';
+  const zodiacHint = z ? `お嬢様は${z.n}でございます。` : '';
+  const p=`${PERSONA_LAYER(S.butlerName||'執事')}\n\nお嬢様へ、今日一日を始める際の執事からの一言をお伝えください。\n以下のいずれかの方向で、40字以内・執事口調で一言のみ返答してください。\n選択肢A：本日の営業への一手（${stateHint || '今日の売上向上のヒント'}）\n選択肢B：お嬢様へのご提案（例：「多忙なお嬢様、評判の${randItem}で気分転換されませんか？」）\n${zodiacHint}\n・疑問形で終わらず、提案・実行型で締めること\n・執事らしい品格ある表現で\n・一言のみ、余計な説明は不要`;try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:100,messages:[{role:'user',content:p}]})});const d=await r.json();S.butlerSay=(d.content||[]).map(x=>x.text||'').join('').trim();S.butlerSayDate=todayStr();sv();}catch(e){S.butlerSay='今日もお嬢様のご活躍をお祈り申し上げます。';}S.butlerSayLoading=false;if(S.tab==='home')render();}
+async function loadHoroscope(force=false){if(!S.userZodiac)return;if(!force&&S.horoscope&&isToday(S.horoscopeDate))return;S.horoscopeLoading=true;if(S.tab==='home')render();const z=zdiac(S.userZodiac);const today=new Date().toLocaleDateString('ja-JP',{month:'long',day:'numeric'});const p=`今日（${today}）の${z.n}の運勢をJSONのみで：\n{"overall":"総合運（40字以内）","love":"恋愛運（20字以内）","work":"仕事運（20字以内）","lucky_item":"ラッキーアイテム（具体的商品名）","lucky_item_search":"Amazonキーワード（3〜6語）","lucky_color":"色名","lucky_number":数字}`;try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:280,messages:[{role:'user',content:p}]})});const d=await r.json();S.horoscope=JSON.parse((d.content||[]).map(x=>x.text||'').join('').replace(/```json|```/g,'').trim());S.horoscopeDate=todayStr();sv();}catch(e){S.horoscope={overall:'穏やかな一日。直感を大切に行動しましょう。',love:'ときめきを大切に',work:'丁寧な対応が評価される',lucky_item:'ハーブティー',lucky_item_search:'ハーブティー ギフト 人気',lucky_color:'水色',lucky_number:7};S.horoscopeDate=todayStr();}S.horoscopeLoading=false;if(S.tab==='home')render();}
+async function loadSalesAnalysis(){S.salesAnalysis=null;S.salesAnalysisDate=null;render();const total=S.customers.reduce((s,c)=>s+(Number(c.avg_sales)||0),0);const goal=S.monthlyGoal||300000;const top3=S.customers.sort((a,b)=>(Number(b.avg_sales)||0)-(Number(a.avg_sales)||0)).slice(0,3).map(c=>`${c.name}:¥${(Number(c.avg_sales)||0).toLocaleString()}`).join('、');const p=`${PERSONA_LAYER(S.butlerName)}\n売上分析と営業アドバイス：月間売上¥${total.toLocaleString()}、目標¥${goal.toLocaleString()}、達成率${Math.round(total/goal*100)}%。TOP顧客：${top3}。具体的な提案と励ましを100字以内で。LINE送信すべき顧客名も含めて。`;try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:p}]})});const d=await r.json();S.salesAnalysis=(d.content||[]).map(x=>x.text||'').join('').trim();S.salesAnalysisDate=todayStr();sv();}catch(e){S.salesAnalysis='分析に失敗しました。';}render();}
+async function loadPerfAnalysis(){S.perfAnalysis=null;S.perfAnalysisDate=null;render();const sorted=[...S.customers].sort((a,b)=>(Number(b.avg_sales)||0)-(Number(a.avg_sales)||0));const total=sorted.reduce((s,c)=>s+(Number(c.avg_sales)||0),0);const lineTargets=sorted.map(c=>({c,s:cscore(c)})).filter(x=>x.s.score>0).slice(0,3).map(({c,s})=>`${c.name}(${s.score}点)`).join('、');const p=`${PERSONA_LAYER(S.butlerName)}\n成績画面での営業提案：月間売上¥${total.toLocaleString()}、登録顧客${S.customers.length}名。LINE送信優先顧客：${lineTargets||'なし'}。具体的なLINE営業提案・励ましを120字以内で。`;try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:220,messages:[{role:'user',content:p}]})});const d=await r.json();S.perfAnalysis=(d.content||[]).map(x=>x.text||'').join('').trim();S.perfAnalysisDate=todayStr();sv();}catch(e){S.perfAnalysis='分析に失敗しました。';}render();}
+async function genLine(){if(!S.lineCustomer)return;const c=S.lineCustomer;S.lineLoading=true;S.lineMessages=null;render();const cast=S.castName||'私';const sc=(c.success_stories&&c.success_stories.length)?`\n【成功事例・効いたパターン】${c.success_stories.map(s=>`・${s}`).join(' ')}`:'';const ng=c.ng_topics?`\n【絶対NG・触れてはいけない話題】${c.ng_topics}`:'';const memo=c.notes?`\n【備考・注意点】${c.notes}`:'';const dates=c.important_dates?`\n【記念日・重要な日】${c.important_dates}`:'';const food=c.favorite_food?`\n【好みの食べ物】${c.favorite_food}`:'';const p=`${PERSONA_LAYER(S.butlerName||'執事')}\n${SALES_DOMAIN}\nキャスト「${cast}」から顧客「${c.name}」（${c.age||'?'}歳 ${c.job||''}）へ送るLINEを3パターン。\n前回来店:${c.last_visit||'不明'} ドリンク:${c.favorite_drink||'不明'} 話題:${c.favorite_topics||'不明'}${food}${ng}${dates}${memo}${sc||'\n【成功事例未登録・基本情報から推測して生成】'}\n各120文字以内。NGトピックは絶対に触れないこと。JSONのみ：{"casual":"カジュアル型（絵文字あり・フレンドリー）","business":"ビジネス型（丁寧・礼儀正しい）","flirty":"色恋型（甘く・ロマンティック）"}`;try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:p}]})});const d=await r.json();S.lineMessages=JSON.parse((d.content||[]).map(x=>x.text||'').join('').replace(/```json|```/g,'').trim());}catch(e){S.lineMessages={error:'生成に失敗しました。'};}S.lineLoading=false;render();}
+
+// 保存・読込
+async function sv(){const photos={};S.customers.forEach(c=>{if(c.photo)photos[c.id]=c.photo;});const data={themeId:S.themeId,butlerName:S.butlerName,castName:S.castName,userZodiac:S.userZodiac,monthlyGoal:S.monthlyGoal,onboarded:S.onboarded,planId:S.planId,customers:S.customers.map(c=>({...c,photo:''})),calEvents:S.calEvents||[],horoscope:S.horoscope,horoscopeDate:S.horoscopeDate,butlerSay:S.butlerSay,butlerSayDate:S.butlerSayDate,salesAnalysis:S.salesAnalysis,salesAnalysisDate:S.salesAnalysisDate,perfAnalysis:S.perfAnalysis,perfAnalysisDate:S.perfAnalysisDate,threads:(S.threads||[]).slice(-48)};try{await window.storage.set('butv8',JSON.stringify(data));}catch(e){try{localStorage.setItem('butv8',JSON.stringify(data));}catch(e2){}}try{await window.storage.set('butv8_photos',JSON.stringify(photos));}catch(e){try{localStorage.setItem('butv8_photos',JSON.stringify(photos));}catch(e2){}}}
+async function ldData(){let raw=null,rawP=null;try{const r=await window.storage.get('butv8');if(r)raw=r.value;const rp=await window.storage.get('butv8_photos');if(rp)rawP=rp.value;}catch(e){}if(!raw)try{raw=localStorage.getItem('butv8');}catch(e){}if(!rawP)try{rawP=localStorage.getItem('butv8_photos');}catch(e){}if(raw)try{const d=JSON.parse(raw);S.themeId=d.themeId||'tiffany';S.butlerName=d.butlerName||'セバスチャン';S.castName=d.castName||'';S.userZodiac=d.userZodiac||'';S.monthlyGoal=d.monthlyGoal||300000;S.onboarded=d.onboarded||false;S.planId=d.planId||'free';if(d.customers&&d.customers.length)S.customers=d.customers;S.calEvents=d.calEvents||[];S.horoscope=d.horoscope||null;S.horoscopeDate=d.horoscopeDate||null;S.butlerSay=d.butlerSay||null;S.butlerSayDate=d.butlerSayDate||null;S.salesAnalysis=d.salesAnalysis||null;S.salesAnalysisDate=d.salesAnalysisDate||null;S.perfAnalysis=d.perfAnalysis||null;S.perfAnalysisDate=d.perfAnalysisDate||null;S.threads=d.threads||[];if(rawP){const photos=JSON.parse(rawP);S.customers.forEach(c=>{if(photos[c.id])c.photo=photos[c.id];});};}catch(e){}}
+
+(async()=>{await ldData();applyTheme(getTheme());if(!S.onboarded){obTmp={castName:S.castName||'',butlerName:S.butlerName||'セバスチャン',userZodiac:S.userZodiac||'',monthlyGoal:S.monthlyGoal||300000};document.getElementById('ob-wrap').style.display='flex';renderOb();render();}else{document.getElementById('ob-wrap').style.display='none';render();if(S.userZodiac&&!isToday(S.horoscopeDate))loadHoroscope();loadButlerSay();}})();
+</script>
+</body>
+</html>
