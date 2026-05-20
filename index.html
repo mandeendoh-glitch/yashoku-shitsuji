@@ -368,22 +368,21 @@ function simulateUpgrade(planId){
   const p=PLANS[planId];
   openM(`<div class="mt">${p.icon} ${p.name}<button class="bo bsm" onclick="closeM()">✕</button></div>
     <div style="text-align:center;padding:16px 0 8px">
-      <div style="font-size:48px;margin-bottom:12px">🎩</div>
-      <div style="font-size:16px;font-weight:800;color:var(--p);margin-bottom:10px">準備中でございます</div>
-      <div style="font-size:12px;color:var(--td);line-height:2;margin-bottom:18px">
-        ${p.name}は現在準備中でございます。<br>
-        正式リリース時に改めてご案内いたします。<br><br>
-        ご興味をお持ちの方は<br>
-        下記よりお知らせくださいませ。<br>
-        優先してご案内いたします。
+      <div style="font-size:48px;margin-bottom:16px">🎩</div>
+      <div style="font-size:15px;font-weight:800;color:var(--p);margin-bottom:14px">お嬢様へ</div>
+      <div style="font-size:13px;color:var(--t);line-height:2;margin-bottom:18px;text-align:left;background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:14px 16px">
+        現在お嬢様がご使用の状況では<br>
+        テストとしてお使いいただいている<br>
+        段階でございます。<br><br>
+        有料プランをご希望であれば<br>
+        改めてわたくしより<br>
+        ご提案させていただきますが<br>
+        今しばらくお時間を頂いております。<br><br>
+        先ずはテスト版として<br>
+        ご利用いただけますと幸いです🎩
       </div>
-      <div style="background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:12px;margin-bottom:14px;text-align:left">
-        <div style="font-size:10px;font-weight:700;color:var(--p);margin-bottom:6px">${p.icon} ${p.name}の主な機能</div>
-        ${p.features.map(f=>`<div style="font-size:11px;color:var(--t);padding:3px 0;display:flex;align-items:center;gap:6px"><span style="color:var(--ok)">✓</span>${f}</div>`).join('')}
-        <div style="font-size:13px;font-weight:800;color:var(--p);margin-top:8px;text-align:center">${p.price||'無料'}</div>
-      </div>
-      <a href="mailto:yorusyoku.my.app@gmail.com?subject=${encodeURIComponent(p.name+'へのアップグレード希望')}&body=${encodeURIComponent('【ご希望のプラン】'+p.name+'\n\n【ご要望・ご質問】\n')}" class="bp bsm" style="display:inline-flex;align-items:center;gap:5px;text-decoration:none;justify-content:center;width:100%;max-width:280px;margin-bottom:8px">📮 アップグレードを希望する</a>
-      <div style="font-size:10px;color:var(--tf)">2営業日以内にご返答いたします</div>
+      <a href="https://lin.ee/oj0rq5b" target="_blank" class="bp bsm" style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;justify-content:center;width:100%;max-width:280px;margin-bottom:8px">💬 公式LINEよりご相談はこちら</a>
+      <div style="font-size:10px;color:var(--tf)">ご要望・ご質問はお気軽にどうぞ</div>
     </div>`);
 }
 
