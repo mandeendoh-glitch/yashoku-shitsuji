@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>特定商取引法に基づく表示 | 夜職MY執事</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f8f8f6;
+      color: #333;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+      line-height: 1.9;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ヘッダー */
+    .header {
+      margin-bottom: 48px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid #333;
+    }
+
+    .header h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(18px, 4vw, 22px);
+      font-weight: 600;
+      color: #222;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: #777;
+    }
+
+    /* テーブル */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid #ddd;
+    }
+
+    tr {
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    tr:last-child { border-bottom: none; }
+
+    th {
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      background: #f4f4f2;
+      padding: 16px 20px;
+      width: 35%;
+      vertical-align: top;
+      border-right: 1px solid #e8e8e8;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      font-size: 14px;
+      color: #333;
+      padding: 16px 20px;
+      vertical-align: top;
+      line-height: 1.9;
+    }
+
+    td a {
+      color: #2c6fad;
+      text-decoration: none;
+    }
+
+    td a:hover {
+      text-decoration: underline;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+    }
+
+    .price-label { color: #555; }
+    .price-value { font-weight: 500; }
+
+    .note {
+      font-size: 12px;
+      color: #888;
+      margin-top: 8px;
+    }
+
+    /* フッター */
+    .footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid #ddd;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #555;
+      text-decoration: none;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      th { width: 40%; font-size: 12px; padding: 12px 12px; }
+      td { font-size: 13px; padding: 12px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>特定商取引法に基づく表示</h1>
+      <p>夜職MY執事 / M&amp;E商会</p>
+    </div>
+
+    <table>
+      <tr>
+        <th>販売業者</th>
+        <td>M&amp;E商会</td>
+      </tr>
+      <tr>
+        <th>代表者名</th>
+        <td>遠藤 幸一</td>
+      </tr>
+      <tr>
+        <th>所在地</th>
+        <td>
+          請求があれば遅滞なく開示いたします。
+          <div class="note">下記メールアドレスよりご請求ください。</div>
+        </td>
+      </tr>
+      <tr>
+        <th>電話番号</th>
+        <td>
+          請求があれば遅滞なく開示いたします。
+          <div class="note">下記メールアドレスよりご請求ください。</div>
+        </td>
+      </tr>
+      <tr>
+        <th>メールアドレス</th>
+        <td><a href="mailto:yorusyoku.my.app@gmail.com">yorusyoku.my.app@gmail.com</a></td>
+      </tr>
+      <tr>
+        <th>販売価格</th>
+        <td>
+          <div class="price-row">
+            <span class="price-label">Proプラン</span>
+            <span class="price-value">¥980 / 月（税込）</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Extraプラン</span>
+            <span class="price-value">¥1,980 / 月（税込）</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>支払方法</th>
+        <td>クレジットカード（Visa・Mastercard・American Express・JCB）</td>
+      </tr>
+      <tr>
+        <th>支払時期</th>
+        <td>お申し込み時に即時決済。以降、毎月同日に自動更新されます。</td>
+      </tr>
+      <tr>
+        <th>サービス提供時期</th>
+        <td>決済完了後、即時ご利用いただけます。</td>
+      </tr>
+      <tr>
+        <th>キャンセル・返金</th>
+        <td>
+          月途中のキャンセルおよび返金はお受けできません。<br>
+          翌月以降のご解約はカスタマーポータルよりいつでも手続き可能です。<br>
+          解約後は次回更新日をもってサービスが終了します。
+        </td>
+      </tr>
+      <tr>
+        <th>動作環境</th>
+        <td>インターネット接続環境およびブラウザが必要です。</td>
+      </tr>
+    </table>
+
+    <div class="footer">
+      <p>本表示は特定商取引法第11条に基づくものです。</p>
+      <a href="index.html" class="back-link">← アプリに戻る</a>
+    </div>
+
+  </div>
+</body>
+</html>
