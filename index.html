@@ -722,5 +722,8 @@ async function ldData(){let raw=null,rawP=null;try{const r=await window.storage.
 
 (async()=>{await ldData();applyTheme(getTheme());if(!S.onboarded){obTmp={castName:S.castName||'',butlerName:S.butlerName||'セバスチャン',userZodiac:S.userZodiac||'',monthlyGoal:S.monthlyGoal||300000};document.getElementById('ob-wrap').style.display='flex';renderOb();render();}else{document.getElementById('ob-wrap').style.display='none';render();if(S.userZodiac&&!isToday(S.horoscopeDate))loadHoroscope();loadButlerSay();}})();
 </script>
+  <div style="text-align:center;padding:16px 0 24px;">
+  <a href="tokusho.html" style="font-size:11px;color:#888;text-decoration:none;">特定商取引法に基づく表示</a>
+</div>
 </body>
 </html>
