@@ -234,7 +234,7 @@ document.getElementById('ob-foot').innerHTML=foot;updObNext();setTimeout(()=>{co
 function updObNext(){const btn=document.getElementById('ob-next-btn');if(!btn)return;const step=OB_STEPS[obStep];if(step.type==='zodiac'){btn.disabled=!obTmp.userZodiac;}else btn.disabled=false;}
 function obNext(){const step=OB_STEPS[obStep];if(step.type==='text'&&step.key){const v=document.getElementById('ob-text-inp')?.value?.trim();if(v)obTmp[step.key]=v;}if(step.type==='butler'){const v=document.getElementById('ob-butler-inp')?.value?.trim();if(v)obTmp.butlerName=v;}if(step.type==='goal'){const v=parseInt(document.getElementById('ob-goal-inp')?.value)||300000;obTmp.monthlyGoal=v;}if(obStep<OB_STEPS.length-1){obStep++;renderOb();}}
 function obSkip(){if(obStep<OB_STEPS.length-1){obStep++;renderOb();}}
-function obFinish(){S.castName=obTmp.castName||'';S.butlerName=obTmp.butlerName||'セバスチャン';S.userZodiac=obTmp.userZodiac||'';S.monthlyGoal=obTmp.monthlyGoal||300000;S.onboarded=true;sv();document.getElementById('ob-wrap').style.display='none';updHdr();render();if(S.userZodiac)loadHoroscope();loadButlerSay();go('butler');}
+function obFinish(){S.castName=obTmp.castName||'';S.butlerName=obTmp.butlerName||'セバスチャン';if(!S.userId){S.userId='U'+String(Date.now()).slice(-4);};S.userZodiac=obTmp.userZodiac||'';S.monthlyGoal=obTmp.monthlyGoal||300000;S.onboarded=true;sv();document.getElementById('ob-wrap').style.display='none';updHdr();render();if(S.userZodiac)loadHoroscope();loadButlerSay();go('butler');}
 
 // ══ 定数 ══
 const THEMES=[
@@ -320,7 +320,7 @@ const AMZ_ID='xxxxxxxx-22';
 function amz(q){return`https://www.amazon.co.jp/s?k=${encodeURIComponent(q)}&tag=${encodeURIComponent(AMZ_ID)}`;}
 
 // ══ ステート ══
-let S={tab:'home',themeId:'tiffany',butlerName:'セバスチャン',castName:'',userZodiac:'',monthlyGoal:300000,onboarded:false,planId:'free',customers:[
+let S={tab:'home',themeId:'tiffany',butlerName:'セバスチャン',castName:'',userZodiac:'',monthlyGoal:300000,onboarded:false,planId:'free',upgradeCode:null,userId:null,customers:[
   {id:1,name:'田中 太郎',name_kana:'たなか たろう',nickname:'たなちゃん',age:50,birthday:'1975-03-30',blood_type:'A型',job:'会社役員',company:'田中商事',area:'横浜市中区',line_id:'tanaka_taro',first_visit:'2023-06-15',last_visit:'2026-03-10',avg_sales:150000,visit_count:18,favorite_drink:'ウイスキー水割り',favorite_food:'和食・寿司',favorite_topics:'ゴルフ、競馬、日本酒',ng_topics:'家族・妻の話',important_dates:'会社設立記念日5/12',smoking:true,douhan:true,notes:'愚痴を聞いてほしいタイプ。',success_stories:['獺祭の話題でボトル入れてもらった','ゴルフのスコアを聞いたら3時間在席'],photo:''},
   {id:2,name:'佐藤 健一',name_kana:'さとう けんいち',nickname:'ケン',age:45,birthday:'1981-07-15',blood_type:'B型',job:'医師',company:'横浜みなと病院',area:'港北区',line_id:'',first_visit:'2025-11-01',last_visit:'2026-02-28',avg_sales:60000,visit_count:5,favorite_drink:'赤ワイン',favorite_food:'フレンチ',favorite_topics:'旅行、グルメ、車(BMW)',ng_topics:'',important_dates:'',smoking:false,douhan:false,notes:'静かな雰囲気を好む。',success_stories:['ワインの銘柄を覚えていたら感激'],photo:''},
   {id:3,name:'鈴木 誠',name_kana:'すずき まこと',nickname:'マコ様',age:38,birthday:'1987-04-08',blood_type:'O型',job:'IT企業部長',company:'テックコア',area:'川崎市',line_id:'makoto_s',first_visit:'2025-08-20',last_visit:'2026-01-15',avg_sales:35000,visit_count:7,favorite_drink:'ビール・ハイボール',favorite_food:'焼き鳥・ラーメン',favorite_topics:'サッカー、ゲーム、アニメ',ng_topics:'',important_dates:'',smoking:false,douhan:false,notes:'金曜夜が来店しやすい。',success_stories:['試合結果を事前調査したら大喜び'],photo:''},
@@ -365,6 +365,9 @@ function simulateUpgrade(planId){
     toast(PLANS[planId].icon+' '+PLANS[planId].name+'に変更いたしました');
     updPlanBadge();render();return;
   }
+  showUpgradeCodeModal(planId);
+}
+function simulateUpgrade_old(planId){
   const p=PLANS[planId];
   openM(`<div class="mt">${p.icon} ${p.name}<button class="bo bsm" onclick="closeM()">✕</button></div>
     <div style="text-align:center;padding:16px 0 8px">
@@ -478,7 +481,7 @@ function rHome(){
     ?`<div style="display:flex;align-items:center;gap:8px;padding:9px 0"><div class="spin" style="width:16px;height:16px;border-width:2px;margin:0;flex-shrink:0"></div><div style="font-size:11px;color:var(--p)">${esc(S.butlerName)}が売上を分析しております…</div></div>`
     :S.salesAnalysis&&isToday(S.salesAnalysisDate)
     ?`<div class="butler-analysis"><div style="font-size:10px;color:var(--td);margin-bottom:4px">🎩 ${esc(S.butlerName)}の分析</div><div style="font-size:12px;line-height:1.8;white-space:pre-line">${esc(S.salesAnalysis)}</div></div>`
-    :`<button class="bo bsm" style="margin-top:8px;width:100%" onclick="loadSalesAnalysis()">🎩 執事に売上を分析してもらう</button>`;
+    :`<button class="bo bsm" style="margin-top:8px;width:100%" onclick="S.planId==='free'?showUpgradeCodeModal('pro'):loadSalesAnalysis()">🎩 執事に売上を分析してもらう${S.planId==='free'?' 🔒':''}</button>`;
 
   const planWarn=S.planId==='free'&&S.customers.length>=40?`<div style="background:rgba(249,168,37,.1);border:1px solid rgba(249,168,37,.3);border-radius:9px;padding:8px 11px;margin-bottom:9px;font-size:11px;color:var(--star);display:flex;align-items:center;justify-content:space-between;gap:8px"><span>🆓 顧客登録 ${S.customers.length}/50名 — あと${50-S.customers.length}名で上限です</span><button class="bo bsm" style="font-size:10px;color:var(--star);border-color:rgba(249,168,37,.4);flex-shrink:0" onclick="showUpgradeModal()">プランを見る</button></div>`:'';
 
@@ -537,7 +540,7 @@ function saveCalEv(){const title=document.getElementById('ev-title')?.value?.tri
 function delCalEv(id){S.calEvents=(S.calEvents||[]).filter(e=>e.id!==id);sv();render();}
 
 // ══ 成績 ══
-function rPerformance(){const sorted=[...S.customers].sort((a,b)=>(Number(b.avg_sales)||0)-(Number(a.avg_sales)||0));const total=sorted.reduce((s,c)=>s+(Number(c.avg_sales)||0),0);const goal=Number(S.monthlyGoal)||300000;const pct=Math.min(Math.round(total/goal*100),100);const vip=sorted.filter(c=>(Number(c.avg_sales)||0)>=100000).length;const pre=sorted.filter(c=>{const s=Number(c.avg_sales)||0;return s>=50000&&s<100000;}).length;const reg=sorted.filter(c=>{const s=Number(c.avg_sales)||0;return s>=20000&&s<50000;}).length;const maxS=Number(sorted[0]?.avg_sales)||1;const gc=pct>=100?'var(--ok)':pct>=70?'var(--p)':'var(--ng)';const perfHtml=S.perfAnalysisLoading?`<div style="display:flex;align-items:center;gap:8px;padding:9px 0"><div class="spin" style="width:16px;height:16px;border-width:2px;margin:0;flex-shrink:0"></div><div style="font-size:11px;color:var(--p)">${esc(S.butlerName)}が営業提案を考えております…</div></div>`:S.perfAnalysis&&isToday(S.perfAnalysisDate)?`<div class="butler-analysis" style="margin-top:0"><div style="font-size:10px;color:var(--td);margin-bottom:4px">🎩 ${esc(S.butlerName)}の提案</div><div style="font-size:12px;line-height:1.8;white-space:pre-line">${esc(S.perfAnalysis)}</div></div>`:`<button class="bo bsm" style="width:100%;margin-top:9px" onclick="loadPerfAnalysis()">🎩 執事に営業提案をもらう</button>`;
+function rPerformance(){const sorted=[...S.customers].sort((a,b)=>(Number(b.avg_sales)||0)-(Number(a.avg_sales)||0));const total=sorted.reduce((s,c)=>s+(Number(c.avg_sales)||0),0);const goal=Number(S.monthlyGoal)||300000;const pct=Math.min(Math.round(total/goal*100),100);const vip=sorted.filter(c=>(Number(c.avg_sales)||0)>=100000).length;const pre=sorted.filter(c=>{const s=Number(c.avg_sales)||0;return s>=50000&&s<100000;}).length;const reg=sorted.filter(c=>{const s=Number(c.avg_sales)||0;return s>=20000&&s<50000;}).length;const maxS=Number(sorted[0]?.avg_sales)||1;const gc=pct>=100?'var(--ok)':pct>=70?'var(--p)':'var(--ng)';const perfHtml=S.perfAnalysisLoading?`<div style="display:flex;align-items:center;gap:8px;padding:9px 0"><div class="spin" style="width:16px;height:16px;border-width:2px;margin:0;flex-shrink:0"></div><div style="font-size:11px;color:var(--p)">${esc(S.butlerName)}が営業提案を考えております…</div></div>`:S.perfAnalysis&&isToday(S.perfAnalysisDate)?`<div class="butler-analysis" style="margin-top:0"><div style="font-size:10px;color:var(--td);margin-bottom:4px">🎩 ${esc(S.butlerName)}の提案</div><div style="font-size:12px;line-height:1.8;white-space:pre-line">${esc(S.perfAnalysis)}</div></div>`:`<button class="bo bsm" style="width:100%;margin-top:9px" onclick="S.planId==='free'?showUpgradeCodeModal('pro'):loadPerfAnalysis()">🎩 執事に営業提案をもらう${S.planId==='free'?' 🔒':''}</button>`;
   return`<div class="sh"><span class="st">📊 成績</span></div><div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px"><div><div style="font-size:10px;color:var(--td)">月間予想売上</div><div style="font-size:22px;font-weight:800;color:var(--p)">¥${total.toLocaleString()}</div></div><div style="text-align:right"><div style="font-size:10px;color:var(--td)">目標 ¥${goal.toLocaleString()}</div><div style="font-size:18px;font-weight:800;color:${gc}">${pct}%</div></div></div><div class="goal-bar"><div class="goal-fill" style="width:${pct}%;background:${gc}"></div></div>${perfHtml}</div><div class="card"><div class="sech" style="margin-top:0">ランク分布</div><div style="display:flex;gap:6px">${[['👑','VIP Gold',vip,'var(--star)'],['💎','Premium',pre,'var(--p)'],['⭐','Regular',reg,'var(--p)'],['🌱','新規',sorted.length-vip-pre-reg,'var(--ok)']].map(([ic,lb,cnt,col])=>`<div style="flex:1;text-align:center;background:var(--card2);border-radius:8px;padding:8px 4px"><div style="font-size:14px">${ic}</div><div style="font-size:16px;font-weight:800;color:${col}">${cnt}</div><div style="font-size:9px;color:var(--td)">${lb}</div></div>`).join('')}</div></div><div class="sech">売上ランキング</div>${sorted.map((c,i)=>{const r=rnk(c);const s=Number(c.avg_sales)||0;const p2=Math.round(s/maxS*100);const av=c.photo?`<img src="${c.photo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0">`:`<div style="width:28px;height:28px;border-radius:50%;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--p);flex-shrink:0">${c.name.charAt(0)}</div>`;return`<div class="c2b" style="margin-bottom:7px;cursor:pointer" onclick="openDetail(${c.id})"><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">${av}<div style="flex:1"><div style="display:flex;align-items:center;gap:5px"><span style="font-size:11px;color:var(--td);font-weight:800">${i+1}</span><span style="font-size:13px;font-weight:800">${esc(c.name)}</span><span>${r.icon}</span></div></div><span style="font-size:13px;font-weight:800;color:var(--p)">¥${s.toLocaleString()}</span></div><div class="sbar"><div class="sfill" style="width:${p2}%"></div></div></div>`;}).join('')}`;}
 
 // ══ 設定（プラン変更セクション付き） ══
@@ -566,6 +569,10 @@ function rSettings(){const z=zdiac(S.userZodiac);const plan=getPlan();const limi
   </div>
   <div class="card"><div class="sech" style="margin-top:0">初期設定</div>
     <button class="bo bsm" onclick="restartOnboarding()" style="color:var(--td)">🔄 初期設定をやり直す</button>
+  </div>
+  <div class="card"><div class="sech" style="margin-top:0">🆔 ユーザーID</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0"><div style="font-size:16px;font-weight:800;color:var(--p);letter-spacing:2px">${S.userId||'未発行'}</div><button class="bo bsm" onclick="navigator.clipboard.writeText(S.userId||'')" style="font-size:10px">コピー</button></div>
+    <div style="font-size:10px;color:var(--tf)">アップグレードコード取得時に必要でございます</div>
   </div>
   <div class="card"><div class="sech" style="margin-top:0">📮 お問い合わせ</div>
     <div style="font-size:11px;color:var(--td);margin-bottom:9px;line-height:1.7">執事が思い通りに動かない場合や<br>ご要望がございましたら、お気軽にどうぞ。</div>
@@ -649,9 +656,61 @@ Return raw JSON only. No markdown. No explanations. No text before or after JSON
 Write 3 natural Japanese LINE messages under 80 chars each.
 {"casual":"関係構築メッセージ(friendly, emoji ok)","business":"丁寧営業メッセージ(polite)","flirty":"印象形成メッセージ(sweet, special feeling)"}`;try{const r=await fetch('https://yashoku-api.mande-endoh.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:p}]})});const d=await r.json();const raw=(d.content||[]).map(x=>x.text||'').join('').trim();const jsonStr=raw.replace(/```json|```/g,'').trim();S.lineMessages=JSON.parse(jsonStr);}catch(e){S.lineMessages={error:'生成に失敗しました。もう一度お試しくださいませ。'};}S.lineLoading=false;render();}
 
+
+// ══ アップグレードコード検証 ══
+function genUpgradeCode(planId, userId){
+  const plan = planId === 'pro' ? 'PRO' : 'EXT';
+  return `${plan}-${userId}-2026`;
+}
+function verifyUpgradeCode(code){
+  if(!code) return null;
+  const parts = code.trim().toUpperCase().split('-');
+  if(parts.length !== 3) return null;
+  const [plan, userId, year] = parts;
+  if(!['PRO','EXT'].includes(plan)) return null;
+  if(!userId.startsWith('U')) return null;
+  if(year !== '2026') return null;
+  return plan === 'PRO' ? 'pro' : 'extra';
+}
+function showUpgradeCodeModal(triggerPlanId){
+  const p = PLANS[triggerPlanId] || PLANS.pro;
+  openM(`<div class="mt">${p.icon} ${p.name}へアップグレード<button class="bo bsm" onclick="closeM()">✕</button></div>
+    <div style="padding:8px 0">
+      <div style="background:var(--pl);border:1px solid var(--pb);border-radius:12px;padding:14px 16px;margin-bottom:14px;font-size:12px;line-height:2;color:var(--t)">
+        🎩 お嬢様へ<br><br>
+        現在はテスト期間のため<br>
+        公式LINEよりアップグレードコードを<br>
+        お受け取りください。<br><br>
+        コードをお持ちの方は<br>
+        下記にご入力くださいませ。
+      </div>
+      <div style="margin-bottom:10px">
+        <input class="inp" id="upgrade-code-inp" placeholder="例：PRO-U001-2026" maxlength="20" style="text-align:center;font-size:14px;font-weight:700;letter-spacing:2px" autocomplete="off">
+      </div>
+      <button class="bp bsm" style="width:100%;margin-bottom:8px" onclick="applyUpgradeCode()">✅ コードを確認する</button>
+      <a href="https://lin.ee/oj0rq5b" target="_blank" class="bo bsm" style="display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;width:100%;margin-bottom:8px">💬 公式LINEでコードを受け取る</a>
+      <div style="font-size:10px;color:var(--tf);text-align:center">コードはご購入後にLINEよりお送りいたします</div>
+    </div>`);
+  setTimeout(()=>document.getElementById('upgrade-code-inp')?.focus(), 300);
+}
+function applyUpgradeCode(){
+  const code = document.getElementById('upgrade-code-inp')?.value?.trim();
+  if(!code){toast('コードをご入力くださいませ');return;}
+  const planId = verifyUpgradeCode(code);
+  if(!planId){
+    toast('コードが正しくございません。ご確認くださいませ');
+    return;
+  }
+  S.planId = planId;
+  S.upgradeCode = code;
+  sv();closeM();
+  updPlanBadge();render();
+  toast(PLANS[planId].icon+' '+PLANS[planId].name+'へのアップグレードが完了いたしました🎩');
+}
+
 // 保存・読込
-async function sv(){const photos={};S.customers.forEach(c=>{if(c.photo)photos[c.id]=c.photo;});const data={themeId:S.themeId,butlerName:S.butlerName,castName:S.castName,userZodiac:S.userZodiac,monthlyGoal:S.monthlyGoal,onboarded:S.onboarded,planId:S.planId,customers:S.customers.map(c=>({...c,photo:''})),calEvents:S.calEvents||[],horoscope:S.horoscope,horoscopeDate:S.horoscopeDate,butlerSay:S.butlerSay,butlerSayDate:S.butlerSayDate,salesAnalysis:S.salesAnalysis,salesAnalysisDate:S.salesAnalysisDate,perfAnalysis:S.perfAnalysis,perfAnalysisDate:S.perfAnalysisDate,threads:(S.threads||[]).slice(-48)};try{await window.storage.set('butv8',JSON.stringify(data));}catch(e){try{localStorage.setItem('butv8',JSON.stringify(data));}catch(e2){}}try{await window.storage.set('butv8_photos',JSON.stringify(photos));}catch(e){try{localStorage.setItem('butv8_photos',JSON.stringify(photos));}catch(e2){}}}
-async function ldData(){let raw=null,rawP=null;try{const r=await window.storage.get('butv8');if(r)raw=r.value;const rp=await window.storage.get('butv8_photos');if(rp)rawP=rp.value;}catch(e){}if(!raw)try{raw=localStorage.getItem('butv8');}catch(e){}if(!rawP)try{rawP=localStorage.getItem('butv8_photos');}catch(e){}if(raw)try{const d=JSON.parse(raw);S.themeId=d.themeId||'tiffany';S.butlerName=d.butlerName||'セバスチャン';S.castName=d.castName||'';S.userZodiac=d.userZodiac||'';S.monthlyGoal=d.monthlyGoal||300000;S.onboarded=d.onboarded||false;S.planId=d.planId||'free';if(d.customers&&d.customers.length)S.customers=d.customers;S.calEvents=d.calEvents||[];S.horoscope=d.horoscope||null;S.horoscopeDate=d.horoscopeDate||null;S.butlerSay=d.butlerSay||null;S.butlerSayDate=d.butlerSayDate||null;S.salesAnalysis=d.salesAnalysis||null;S.salesAnalysisDate=d.salesAnalysisDate||null;S.perfAnalysis=d.perfAnalysis||null;S.perfAnalysisDate=d.perfAnalysisDate||null;S.threads=d.threads||[];if(rawP){const photos=JSON.parse(rawP);S.customers.forEach(c=>{if(photos[c.id])c.photo=photos[c.id];});};}catch(e){}}
+async function sv(){const photos={};S.customers.forEach(c=>{if(c.photo)photos[c.id]=c.photo;});const data={themeId:S.themeId,planId:S.planId,upgradeCode:S.upgradeCode,userId:S.userId,butlerName:S.butlerName,castName:S.castName,userZodiac:S.userZodiac,monthlyGoal:S.monthlyGoal,onboarded:S.onboarded,planId:S.planId,customers:S.customers.map(c=>({...c,photo:''})),calEvents:S.calEvents||[],horoscope:S.horoscope,horoscopeDate:S.horoscopeDate,butlerSay:S.butlerSay,butlerSayDate:S.butlerSayDate,salesAnalysis:S.salesAnalysis,salesAnalysisDate:S.salesAnalysisDate,perfAnalysis:S.perfAnalysis,perfAnalysisDate:S.perfAnalysisDate,threads:(S.threads||[]).slice(-48)};try{await window.storage.set('butv8',JSON.stringify(data));}catch(e){try{localStorage.setItem('butv8',JSON.stringify(data));}catch(e2){}}try{await window.storage.set('butv8_photos',JSON.stringify(photos));}catch(e){try{localStorage.setItem('butv8_photos',JSON.stringify(photos));}catch(e2){}}}
+async function ldData(){let raw=null,rawP=null;try{const r=await window.storage.get('butv8');if(r)raw=r.value;const rp=await window.storage.get('butv8_photos');if(rp)rawP=rp.value;}catch(e){}if(!raw)try{raw=localStorage.getItem('butv8');}catch(e){}if(!rawP)try{rawP=localStorage.getItem('butv8_photos');}catch(e){}if(raw)try{const d=JSON.parse(raw);S.themeId=d.themeId||'tiffany';S.butlerName=d.butlerName||'セバスチャン';S.castName=d.castName||'';S.userZodiac=d.userZodiac||'';S.monthlyGoal=d.monthlyGoal||300000;S.onboarded=d.onboarded||false;S.planId=d.planId||'free';if(d.upgradeCode)S.upgradeCode=d.upgradeCode;if(d.userId)S.userId=d.userId;if(d.customers&&d.customers.length)S.customers=d.customers;S.calEvents=d.calEvents||[];S.horoscope=d.horoscope||null;S.horoscopeDate=d.horoscopeDate||null;S.butlerSay=d.butlerSay||null;S.butlerSayDate=d.butlerSayDate||null;S.salesAnalysis=d.salesAnalysis||null;S.salesAnalysisDate=d.salesAnalysisDate||null;S.perfAnalysis=d.perfAnalysis||null;S.perfAnalysisDate=d.perfAnalysisDate||null;S.threads=d.threads||[];if(rawP){const photos=JSON.parse(rawP);S.customers.forEach(c=>{if(photos[c.id])c.photo=photos[c.id];});};}catch(e){}}
 
 (async()=>{await ldData();applyTheme(getTheme());if(!S.onboarded){obTmp={castName:S.castName||'',butlerName:S.butlerName||'セバスチャン',userZodiac:S.userZodiac||'',monthlyGoal:S.monthlyGoal||300000};document.getElementById('ob-wrap').style.display='flex';renderOb();render();}else{document.getElementById('ob-wrap').style.display='none';render();if(S.userZodiac&&!isToday(S.horoscopeDate))loadHoroscope();loadButlerSay();}})();
 </script>
